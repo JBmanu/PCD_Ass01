@@ -11,8 +11,8 @@ public class RunTrafficSimulationMassiveTest {
 		simulation.setup();
 		
 		log("Running the simulation: " + numCars + " cars, for " + nSteps + " steps ...");
-		
-		simulation.run(nSteps);
+
+		simulation.play(nSteps);
 
 		final long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");

@@ -21,6 +21,7 @@ public class StepperView extends JPanel {
 
         this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.setLayout(this.layoutManager);
+        this.textField.setText("10000");
         this.add(this.titleLabel);
         this.add(this.textField);
         this.add(this.errorLabel);

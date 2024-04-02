@@ -7,7 +7,7 @@ import java.util.List;
  * Base class for defining concrete simulations
  *  
  */
-public abstract class AbstractSimulation {
+public abstract class AbstractSimulation extends Thread {
 
 	/* environment of the simulation */
 	private AbstractEnvironment env;
@@ -34,11 +34,19 @@ public abstract class AbstractSimulation {
 	private long endWallTime;
 	private long averageTimePerStep;
 
+	// Step
+	private volatile int nStep;
+	private boolean isRunning;
+	private boolean isPaused;
+
 
 	protected AbstractSimulation() {
         this.agents = new ArrayList<AbstractAgent>();
         this.listeners = new ArrayList<SimulationListener>();
         this.toBeInSyncWithWallTime = false;
+		this.isPaused = true;
+		this.isRunning = false;
+		this.start();
 	}
 	
 	/**
@@ -47,15 +55,28 @@ public abstract class AbstractSimulation {
 	 * 
 	 */
 	protected abstract void setup();
-	
+
 	/**
 	 * Method running the simulation for a number of steps,
 	 * using a sequential approach
-	 * 
-	 * @param numSteps
+	 *
+	 * @param nStep
 	 */
-	public void run(final int numSteps) {
+	public void play(final int nStep) {
+		this.nStep = nStep;
+		this.isPaused = false;
+		if (!this.isRunning) this.isRunning = true;
+	}
 
+	public void pause() {
+		this.isPaused = true;
+	}
+
+	@Override
+	public void run() {
+		while (!this.isRunning) {
+			System.out.println("Waiting for the simulation to start ...");
+		}
         this.startWallTime = System.currentTimeMillis();
 
 		/* initialize the env and the agents inside */
@@ -70,9 +91,11 @@ public abstract class AbstractSimulation {
 		
 		long timePerStep = 0;
 		int nSteps = 0;
-		
-		while (nSteps < numSteps) {
 
+		while (nSteps < this.nStep) {
+			while (!this.isRunning || this.isPaused) {
+				System.out.println("Waiting for the simulation to start ...");
+			}
             this.currentWallTime = System.currentTimeMillis();
 		
 			/* make a step */
@@ -94,7 +117,7 @@ public abstract class AbstractSimulation {
 		}
 
         this.endWallTime = System.currentTimeMillis();
-		this.averageTimePerStep = timePerStep / numSteps;
+		this.averageTimePerStep = timePerStep / this.nStep;
 		
 	}
 	
@@ -157,13 +180,5 @@ public abstract class AbstractSimulation {
 		} catch (final Exception ex) {}
 	}
 
-	// start
-	public void start(final int step) {
-		this.run(step);
-	}
 
-	// stop
-	public void stop() {
-		// TODO Auto-generated method stub
-	}
 }

@@ -2,6 +2,7 @@ package view;
 
 import simengineseq.AbstractAgent;
 import simengineseq.AbstractEnvironment;
+import simengineseq.AbstractSimulation;
 import simengineseq.SimulationListener;
 import simtrafficbase.*;
 import view.commands.CommandsPanelView;
@@ -12,14 +13,14 @@ import java.util.List;
 
 public class RoadSimView extends JFrame implements SimulationListener {
 	private final CommandsPanelView commandsPanelView;
-	private final RoadSimPanelView roadPanelView;
+	private final RoadPanelView roadPanelView;
 	private final BorderLayout layoutManager;
 
 	public RoadSimView() {
 		super("RoadSim View");
         this.setSize(ViewUtils.GUI_WIDTH, ViewUtils.GUI_HEIGHT);
 		this.commandsPanelView = new CommandsPanelView();
-        this.roadPanelView = new RoadSimPanelView(ViewUtils.ROAD_WIDTH, ViewUtils.ROAD_HEIGHT);
+        this.roadPanelView = new RoadPanelView(ViewUtils.ROAD_WIDTH, ViewUtils.ROAD_HEIGHT);
 		this.layoutManager = new BorderLayout();
 
 		this.setLayout(this.layoutManager);
@@ -46,4 +47,7 @@ public class RoadSimView extends JFrame implements SimulationListener {
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
 	}
 
+	public void setupCommandsSimulation(final AbstractSimulation simulation) {
+		this.commandsPanelView.setupSimulation(simulation);
+	}
 }

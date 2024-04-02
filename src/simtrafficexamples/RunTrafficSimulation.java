@@ -22,7 +22,8 @@ public class RunTrafficSimulation {
 		view.display();
 		
 		simulation.addSimulationListener(stat);
-		simulation.addSimulationListener(view);		
-		simulation.run(10000);
+		simulation.addSimulationListener(view);
+
+		view.setupCommandsSimulation(simulation);
 	}
 }

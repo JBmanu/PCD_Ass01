@@ -1,5 +1,6 @@
 package view.commands;
 
+import simengineseq.AbstractSimulation;
 import view.ViewUtils;
 
 import javax.swing.*;
@@ -22,11 +23,7 @@ public class CommandsPanelView extends JPanel {
         this.add(this.stepperView);
     }
 
-    public void setStartButtonAction(final Runnable action) {
-//        this.startButton.addActionListener(e -> action.run());
-    }
-
-    public void setStopButtonAction(final Runnable action) {
-//        this.stopButton.addActionListener(e -> action.run());
+    public void setupSimulation(final AbstractSimulation simulation) {
+        this.startStopView.setupSimulation(simulation, this.stepperView);
     }
 }

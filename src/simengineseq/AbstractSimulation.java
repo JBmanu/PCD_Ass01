@@ -156,4 +156,14 @@ public abstract class AbstractSimulation {
 			}
 		} catch (final Exception ex) {}
 	}
+
+	// start
+	public void start(final int step) {
+		this.run(step);
+	}
+
+	// stop
+	public void stop() {
+		// TODO Auto-generated method stub
+	}
 }

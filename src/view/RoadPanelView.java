@@ -11,13 +11,13 @@ import java.util.List;
 
 import static view.ViewUtils.CAR_SIZE;
 
-public class RoadSimPanelView extends JPanel {
+public class RoadPanelView extends JPanel {
 
     List<CarAgentInfo> cars;
     List<Road> roads;
     List<TrafficLight> sems;
 
-    public RoadSimPanelView(final int width, final int height){
+    public RoadPanelView(final int width, final int height){
         this.setSize(width, height);
     }
 

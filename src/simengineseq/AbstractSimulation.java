@@ -75,7 +75,7 @@ public abstract class AbstractSimulation extends Thread {
 	@Override
 	public void run() {
 		while (!this.isRunning) {
-			System.out.println("Waiting for the simulation to start ...");
+			System.out.println("Waiting running for the simulation to start ...");
 		}
         this.startWallTime = System.currentTimeMillis();
 
@@ -94,7 +94,7 @@ public abstract class AbstractSimulation extends Thread {
 
 		while (nSteps < this.nStep) {
 			while (!this.isRunning || this.isPaused) {
-				System.out.println("Waiting for the simulation to start ...");
+				System.out.println("Waiting pause for the simulation to start ...");
 			}
             this.currentWallTime = System.currentTimeMillis();
 		
@@ -118,7 +118,9 @@ public abstract class AbstractSimulation extends Thread {
 
         this.endWallTime = System.currentTimeMillis();
 		this.averageTimePerStep = timePerStep / this.nStep;
-		
+
+		System.out.println("Simulation completed in " + this.getSimulationDuration() + " ms " +
+				"- average time per step: " + this.getAverageTimePerCycle() + " ms");
 	}
 	
 	public long getSimulationDuration() {

@@ -14,8 +14,8 @@ public class RunTrafficSimulationMassiveTest {
 
 		simulation.play(nSteps);
 
-		final long d = simulation.getSimulationDuration();
-		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+//		final long d = simulation.getSimulationDuration();
+//		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
 	}
 	
 	private static void log(final String msg) {

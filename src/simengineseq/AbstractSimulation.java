@@ -1,7 +1,8 @@
 package simengineseq;
 
-import commands.startStop.StartStopMonitor;
-import commands.stepper.Stepper;
+import commands.StartStopMonitor;
+import commands.TimeStatistics;
+import commands.Stepper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,12 @@ public abstract class AbstractSimulation extends Thread {
 	private int nStepsPerSec;
 	
 	/* for time statistics*/
-	private long currentWallTime;
-	private long startWallTime;
-	private long endWallTime;
-	private long averageTimePerStep;
+//	private long currentWallTime;
+//	private long startWallTime;
+//	private long endWallTime;
+//	private long averageTimePerStep;
+	// Statistics
+	private final TimeStatistics timeStatistics;
 
 	// Step
 	private final Stepper stepper;
@@ -49,6 +52,7 @@ public abstract class AbstractSimulation extends Thread {
         this.listeners = new ArrayList<SimulationListener>();
         this.toBeInSyncWithWallTime = false;
 		this.startStopMonitor = new StartStopMonitor();
+		this.timeStatistics = new TimeStatistics();
 		this.stepper = new Stepper();
 		this.start();
 	}
@@ -80,7 +84,7 @@ public abstract class AbstractSimulation extends Thread {
 	@Override
 	public void run() {
 		this.startStopMonitor.waitUntilRunning();
-        this.startWallTime = System.currentTimeMillis();
+		this.timeStatistics.setStartWallTime(System.currentTimeMillis());
 
 		/* initialize the env and the agents inside */
 		int t = this.t0;
@@ -96,8 +100,8 @@ public abstract class AbstractSimulation extends Thread {
 
 		while (this.stepper.hasMoreSteps()) {
 			this.startStopMonitor.waitUntilRunning();
-			this.currentWallTime = System.currentTimeMillis();
-		
+			this.timeStatistics.setCurrentWallTime(System.currentTimeMillis());
+
 			/* make a step */
             this.env.step(this.dt);
 			for (final var agent: this.agents) {
@@ -108,26 +112,27 @@ public abstract class AbstractSimulation extends Thread {
             this.notifyNewStep(t, this.agents, this.env, this.stepper);
 
 			this.stepper.increaseStep();
-			timePerStep += System.currentTimeMillis() - this.currentWallTime;
+			timePerStep += System.currentTimeMillis() - this.timeStatistics.currentWallTime();
 			
 			if (this.toBeInSyncWithWallTime) {
                 this.syncWithWallTime();
 			}
 		}
 
-        this.endWallTime = System.currentTimeMillis();
-		this.averageTimePerStep = timePerStep / this.stepper.totalStep();
+		this.timeStatistics.setEndWallTime(System.currentTimeMillis());
+		this.timeStatistics.setAverageTimeForStep(timePerStep / this.stepper.totalStep());
+
 
 		System.out.println("Simulation completed in " + this.getSimulationDuration() + " ms " +
 				"- average time per step: " + this.getAverageTimePerCycle() + " ms");
 	}
 	
 	public long getSimulationDuration() {
-		return this.endWallTime - this.startWallTime;
+		return this.timeStatistics.totalWallTime();
 	}
 	
 	public long getAverageTimePerCycle() {
-		return this.averageTimePerStep;
+		return this.timeStatistics.averageTimeForStep();
 	}
 	
 	/* methods for configuring the simulation */
@@ -175,7 +180,7 @@ public abstract class AbstractSimulation extends Thread {
 		try {
 			final long newWallTime = System.currentTimeMillis();
 			final long delay = 1000 / this.nStepsPerSec;
-			final long wallTimeDT = newWallTime - this.currentWallTime;
+			final long wallTimeDT = newWallTime - this.timeStatistics.currentWallTime();
 			if (wallTimeDT < delay) {
 				Thread.sleep(delay - wallTimeDT);
 			}

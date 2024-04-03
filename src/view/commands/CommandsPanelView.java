@@ -1,6 +1,6 @@
 package view.commands;
 
-import commands.stepper.Stepper;
+import commands.Stepper;
 import simengineseq.AbstractSimulation;
 import view.ViewUtils;
 

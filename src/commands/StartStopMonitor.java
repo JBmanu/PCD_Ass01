@@ -1,4 +1,4 @@
-package commands.startStop;
+package commands;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

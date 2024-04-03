@@ -1,6 +1,6 @@
 package simtrafficexamples;
 
-import commands.stepper.Stepper;
+import commands.Stepper;
 import simengineseq.AbstractAgent;
 import simengineseq.AbstractEnvironment;
 import simengineseq.SimulationListener;

@@ -1,6 +1,6 @@
 package view.commands;
 
-import commands.stepper.Stepper;
+import commands.Stepper;
 import view.ViewUtils;
 
 import javax.swing.*;

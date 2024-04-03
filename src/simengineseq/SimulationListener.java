@@ -1,6 +1,6 @@
 package simengineseq;
 
-import commands.stepper.Stepper;
+import commands.Stepper;
 
 import java.util.List;
 

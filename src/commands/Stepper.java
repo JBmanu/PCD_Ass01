@@ -1,4 +1,4 @@
-package commands.stepper;
+package commands;
 
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Condition;

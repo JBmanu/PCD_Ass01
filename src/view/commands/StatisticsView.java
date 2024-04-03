@@ -3,7 +3,7 @@ package view.commands;
 import javax.swing.*;
 import java.awt.*;
 
-public class TimesView extends JPanel {
+public class StatisticsView extends JPanel {
     private final JLabel currentAverageTimeLabel;
     private final JLabel currentMaxTimeLabel;
     private final JLabel currentMinTimeLabel;
@@ -11,7 +11,7 @@ public class TimesView extends JPanel {
     private final JLabel currentTimesLabel;
     private final FlowLayout layoutManager;
 
-    public TimesView() {
+    public StatisticsView() {
         this.currentAverageTimeLabel = new JLabel();
         this.currentMaxTimeLabel = new JLabel();
         this.currentMinTimeLabel = new JLabel();

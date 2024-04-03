@@ -84,7 +84,7 @@ public abstract class AbstractSimulation extends Thread {
 	@Override
 	public void run() {
 		this.startStopMonitor.waitUntilRunning();
-		this.timeStatistics.setStartWallTime(System.currentTimeMillis());
+		this.timeStatistics.setStartWallTime();
 
 		/* initialize the env and the agents inside */
 		int t = this.t0;

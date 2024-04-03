@@ -1,6 +1,7 @@
 package simengineseq;
 
 import commands.startStop.StartStopMonitor;
+import commands.stepper.Stepper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Base class for defining concrete simulations
  *  
  */
-public abstract class AbstractSimulation implements Runnable {
+public abstract class AbstractSimulation extends Thread {
 
 	/* environment of the simulation */
 	private AbstractEnvironment env;
@@ -37,7 +38,7 @@ public abstract class AbstractSimulation implements Runnable {
 	private long averageTimePerStep;
 
 	// Step
-	private int nStep;
+	private final Stepper stepper;
 	private final StartStopMonitor startStopMonitor;
 //	private boolean isRunning;
 //	private boolean isPaused;
@@ -48,7 +49,8 @@ public abstract class AbstractSimulation implements Runnable {
         this.listeners = new ArrayList<SimulationListener>();
         this.toBeInSyncWithWallTime = false;
 		this.startStopMonitor = new StartStopMonitor();
-		this.run();
+		this.stepper = new Stepper();
+		this.start();
 	}
 	
 	/**
@@ -58,14 +60,12 @@ public abstract class AbstractSimulation implements Runnable {
 	 */
 	protected abstract void setup();
 
-	/**
-	 * Method running the simulation for a number of steps,
-	 * using a sequential approach
-	 *
-	 * @param nStep
-	 */
+	public Stepper stepper() {
+		return this.stepper;
+	}
+
 	public void play(final int nStep) {
-		this.nStep = nStep;
+		this.stepper.setTotalStep(nStep);
 		this.startStopMonitor.play();
 	}
 
@@ -73,6 +73,10 @@ public abstract class AbstractSimulation implements Runnable {
 		this.startStopMonitor.pause();
 	}
 
+	/**
+	 * Method running the simulation for a number of steps,
+	 * using a sequential approach
+	 */
 	@Override
 	public void run() {
 		this.startStopMonitor.waitUntilRunning();
@@ -89,9 +93,8 @@ public abstract class AbstractSimulation implements Runnable {
 		this.notifyReset(t, this.agents, this.env);
 		
 		long timePerStep = 0;
-		int nSteps = 0;
 
-		while (nSteps < this.nStep) {
+		while (this.stepper.hasMoreSteps()) {
 			this.startStopMonitor.waitUntilRunning();
 			this.currentWallTime = System.currentTimeMillis();
 		
@@ -102,9 +105,9 @@ public abstract class AbstractSimulation implements Runnable {
 			}
 			t += this.dt;
 
-            this.notifyNewStep(t, this.agents, this.env);
+            this.notifyNewStep(t, this.agents, this.env, this.stepper);
 
-			nSteps++;			
+			this.stepper.increaseStep();
 			timePerStep += System.currentTimeMillis() - this.currentWallTime;
 			
 			if (this.toBeInSyncWithWallTime) {
@@ -113,7 +116,7 @@ public abstract class AbstractSimulation implements Runnable {
 		}
 
         this.endWallTime = System.currentTimeMillis();
-		this.averageTimePerStep = timePerStep / this.nStep;
+		this.averageTimePerStep = timePerStep / this.stepper.totalStep();
 
 		System.out.println("Simulation completed in " + this.getSimulationDuration() + " ms " +
 				"- average time per step: " + this.getAverageTimePerCycle() + " ms");
@@ -159,9 +162,10 @@ public abstract class AbstractSimulation implements Runnable {
 		}
 	}
 
-	private void notifyNewStep(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
+	private void notifyNewStep(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper) {
 		for (final var l: this.listeners) {
-			l.notifyStepDone(t, agents, env);
+			l.notifyStepDone(t, agents, env, stepper);
+
 		}
 	}
 

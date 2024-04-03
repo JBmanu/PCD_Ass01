@@ -1,5 +1,6 @@
 package view.commands;
 
+import commands.stepper.Stepper;
 import simengineseq.AbstractSimulation;
 import view.ViewUtils;
 
@@ -25,5 +26,9 @@ public class CommandsPanelView extends JPanel {
 
     public void setupSimulation(final AbstractSimulation simulation) {
         this.startStopView.setupSimulation(simulation, this.stepperView);
+    }
+
+    public void updateStepper(final Stepper stepper) {
+        SwingUtilities.invokeLater(() -> this.stepperView.updateStepper(stepper));
     }
 }

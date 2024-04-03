@@ -1,5 +1,7 @@
 package simengineseq;
 
+import commands.stepper.Stepper;
+
 import java.util.List;
 
 public interface SimulationListener {
@@ -19,5 +21,5 @@ public interface SimulationListener {
 	 * @param agents
 	 * @param env
 	 */
-	void notifyStepDone(int t, List<AbstractAgent> agents, AbstractEnvironment env);
+	void notifyStepDone(int t, List<AbstractAgent> agents, AbstractEnvironment env, Stepper stepper);
 }

@@ -1,5 +1,6 @@
 package view;
 
+import commands.stepper.Stepper;
 import simengineseq.AbstractAgent;
 import simengineseq.AbstractEnvironment;
 import simengineseq.AbstractSimulation;
@@ -29,10 +30,11 @@ public class RoadSimView extends JFrame implements SimulationListener {
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
-	}
-	
-	public void display() {
 		SwingUtilities.invokeLater(() -> this.setVisible(true));
+	}
+
+	public void setupCommandsSimulation(final AbstractSimulation simulation) {
+		this.commandsPanelView.setupSimulation(simulation);
 	}
 
 	@Override
@@ -42,12 +44,11 @@ public class RoadSimView extends JFrame implements SimulationListener {
 	}
 
 	@Override
-	public void notifyStepDone(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
+	public void notifyStepDone(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper) {
 		final var e = ((RoadsEnv) env);
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
+		this.commandsPanelView.updateStepper(stepper);
 	}
 
-	public void setupCommandsSimulation(final AbstractSimulation simulation) {
-		this.commandsPanelView.setupSimulation(simulation);
-	}
+
 }

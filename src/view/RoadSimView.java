@@ -54,5 +54,10 @@ public class RoadSimView extends JFrame implements SimulationListener {
 		this.commandsPanelView.updateCommands(stepper, timeStatistics);
 	}
 
+	@Override
+	public void notifyEnd(Stepper stepper, TimeStatistics timeStatistics) {
+		this.commandsPanelView.lastUpdateCommands(timeStatistics);
+	}
+
 
 }

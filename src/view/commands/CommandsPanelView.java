@@ -33,7 +33,15 @@ public class CommandsPanelView extends JPanel {
     }
 
     public void updateCommands(final Stepper stepper, final TimeStatistics timeStatistics) {
-        SwingUtilities.invokeLater(() -> this.stepperView.updateStepper(stepper));
-        SwingUtilities.invokeLater(() -> this.timeStatisticsView.updateStatistics(timeStatistics));
+        SwingUtilities.invokeLater(() -> {
+            this.stepperView.updateStepper(stepper);
+            this.timeStatisticsView.updateStatistics(timeStatistics);
+        });
+    }
+
+    public void lastUpdateCommands(final TimeStatistics timeStatistics) {
+        SwingUtilities.invokeLater(() -> {
+            this.timeStatisticsView.lastUpdateStatistics(timeStatistics);
+        });
     }
 }

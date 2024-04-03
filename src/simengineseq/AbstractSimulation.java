@@ -122,7 +122,7 @@ public abstract class AbstractSimulation extends Thread {
 		this.timeStatistics.setEndWallTime(System.currentTimeMillis());
 		this.timeStatistics.setAverageTimeForStep(timePerStep / this.stepper.totalStep());
 
-
+		this.notifyEnd();
 		System.out.println("Simulation completed in " + this.getSimulationDuration() + " ms " +
 				"- average time per step: " + this.getAverageTimePerCycle() + " ms");
 	}
@@ -171,6 +171,12 @@ public abstract class AbstractSimulation extends Thread {
 		for (final var l: this.listeners) {
 			l.notifyStepDone(t, agents, env, stepper, timeStatistics);
 
+		}
+	}
+
+	private void notifyEnd() {
+		for (final var l: this.listeners) {
+			l.notifyEnd(this.stepper, this.timeStatistics);
 		}
 	}
 

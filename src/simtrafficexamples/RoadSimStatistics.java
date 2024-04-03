@@ -54,7 +54,12 @@ public class RoadSimStatistics implements SimulationListener {
 		}
         this.log("average speed: " + avSpeed);
 	}
-	
+
+	@Override
+	public void notifyEnd(Stepper stepper, TimeStatistics timeStatistics) {
+
+	}
+
 	public double getAverageSpeed() {
 		return this.averageSpeed;
 	}

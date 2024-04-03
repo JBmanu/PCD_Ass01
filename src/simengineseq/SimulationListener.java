@@ -27,4 +27,7 @@ public interface SimulationListener {
 						final AbstractEnvironment env,
 						final Stepper stepper,
 						final TimeStatistics timeStatistics);
+
+	void notifyEnd(final Stepper stepper,
+				   final TimeStatistics timeStatistics);
 }

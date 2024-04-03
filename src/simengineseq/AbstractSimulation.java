@@ -1,5 +1,7 @@
 package simengineseq;
 
+import commands.startStop.StartStopMonitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Base class for defining concrete simulations
  *  
  */
-public abstract class AbstractSimulation extends Thread {
+public abstract class AbstractSimulation implements Runnable {
 
 	/* environment of the simulation */
 	private AbstractEnvironment env;
@@ -35,18 +37,18 @@ public abstract class AbstractSimulation extends Thread {
 	private long averageTimePerStep;
 
 	// Step
-	private volatile int nStep;
-	private boolean isRunning;
-	private boolean isPaused;
+	private int nStep;
+	private final StartStopMonitor startStopMonitor;
+//	private boolean isRunning;
+//	private boolean isPaused;
 
 
 	protected AbstractSimulation() {
         this.agents = new ArrayList<AbstractAgent>();
         this.listeners = new ArrayList<SimulationListener>();
         this.toBeInSyncWithWallTime = false;
-		this.isPaused = true;
-		this.isRunning = false;
-		this.start();
+		this.startStopMonitor = new StartStopMonitor();
+		this.run();
 	}
 	
 	/**
@@ -64,19 +66,16 @@ public abstract class AbstractSimulation extends Thread {
 	 */
 	public void play(final int nStep) {
 		this.nStep = nStep;
-		this.isPaused = false;
-		if (!this.isRunning) this.isRunning = true;
+		this.startStopMonitor.play();
 	}
 
 	public void pause() {
-		this.isPaused = true;
+		this.startStopMonitor.pause();
 	}
 
 	@Override
 	public void run() {
-		while (!this.isRunning) {
-			System.out.println("Waiting running for the simulation to start ...");
-		}
+		this.startStopMonitor.waitUntilRunning();
         this.startWallTime = System.currentTimeMillis();
 
 		/* initialize the env and the agents inside */
@@ -93,13 +92,10 @@ public abstract class AbstractSimulation extends Thread {
 		int nSteps = 0;
 
 		while (nSteps < this.nStep) {
-			while (!this.isRunning || this.isPaused) {
-				System.out.println("Waiting pause for the simulation to start ...");
-			}
-            this.currentWallTime = System.currentTimeMillis();
+			this.startStopMonitor.waitUntilRunning();
+			this.currentWallTime = System.currentTimeMillis();
 		
 			/* make a step */
-
             this.env.step(this.dt);
 			for (final var agent: this.agents) {
 				agent.step(this.dt);

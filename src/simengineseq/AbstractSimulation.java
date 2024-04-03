@@ -109,7 +109,7 @@ public abstract class AbstractSimulation extends Thread {
 			}
 			t += this.dt;
 
-            this.notifyNewStep(t, this.agents, this.env, this.stepper);
+            this.notifyNewStep(t, this.agents, this.env, this.stepper, this.timeStatistics);
 
 			this.stepper.increaseStep();
 			timePerStep += System.currentTimeMillis() - this.timeStatistics.currentWallTime();
@@ -167,9 +167,9 @@ public abstract class AbstractSimulation extends Thread {
 		}
 	}
 
-	private void notifyNewStep(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper) {
+	private void notifyNewStep(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper, final TimeStatistics timeStatistics) {
 		for (final var l: this.listeners) {
-			l.notifyStepDone(t, agents, env, stepper);
+			l.notifyStepDone(t, agents, env, stepper, timeStatistics);
 
 		}
 	}

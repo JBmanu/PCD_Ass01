@@ -1,6 +1,7 @@
 package simtrafficexamples;
 
 import commands.Stepper;
+import commands.TimeStatistics;
 import simengineseq.AbstractAgent;
 import simengineseq.AbstractEnvironment;
 import simengineseq.SimulationListener;
@@ -32,7 +33,7 @@ public class RoadSimStatistics implements SimulationListener {
 	}
 
 	@Override
-	public void notifyStepDone(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper) {
+	public void notifyStepDone(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper, final TimeStatistics timeStatistics) {
 		double avSpeed = 0;
 
         this.maxSpeed = -1;

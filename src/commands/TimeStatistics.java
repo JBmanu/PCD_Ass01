@@ -4,13 +4,13 @@ public class TimeStatistics {
     private long currentWallTime;
     private long startWallTime;
     private long endWallTime;
-    private long averageTimeForStep;
+    private double averageTimeForStep;
 
     public TimeStatistics() {
         this.currentWallTime = 0;
         this.startWallTime = 0;
         this.endWallTime = 0;
-        this.averageTimeForStep = 0;
+        this.averageTimeForStep = 0.d;
     }
 
     public long currentWallTime() {
@@ -21,7 +21,7 @@ public class TimeStatistics {
         return this.currentWallTime - this.startWallTime;
     }
 
-    public long averageTimeForStep() {
+    public double averageTimeForStep() {
         return this.averageTimeForStep;
     }
 
@@ -30,7 +30,7 @@ public class TimeStatistics {
     }
 
 
-    public void setCurrentWallTime(long currentWallTime) {
+    public void setCurrentWallTime(final long currentWallTime) {
         this.currentWallTime = currentWallTime;
     }
 
@@ -39,11 +39,11 @@ public class TimeStatistics {
         this.endWallTime = this.startWallTime;
     }
 
-    public void setEndWallTime(long endWallTime) {
+    public void setEndWallTime(final long endWallTime) {
         this.endWallTime = endWallTime;
     }
 
-    public void setAverageTimeForStep(long averageTimeForStep) {
+    public void setAverageTimeForStep(final double averageTimeForStep) {
         this.averageTimeForStep = averageTimeForStep;
     }
 }

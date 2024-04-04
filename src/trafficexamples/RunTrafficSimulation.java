@@ -18,12 +18,9 @@ public class RunTrafficSimulation {
 		// var simulation = new TrafficSimulationWithCrossRoads();
 		simulation.setup();
 
-		final RoadSimStatistics stat = new RoadSimStatistics();
 		final RoadSimView view = new RoadSimView();
 
-		simulation.addSimulationListener(stat);
-		simulation.addSimulationListener(view);
-
+		simulation.addViewListener(view);
 		view.setupCommandsSimulation(simulation);
 	}
 }

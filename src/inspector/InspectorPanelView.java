@@ -43,6 +43,7 @@ public class InspectorPanelView extends JPanel {
         SwingUtilities.invokeLater(() -> {
             this.stepperView.updateStepper(simulation.stepper());
             this.timeStatisticsView.updateStatistics(simulation.timeStatistics());
+            this.roadStatisticView.updateStatistics(simulation.roadStatistics());
         });
     }
 

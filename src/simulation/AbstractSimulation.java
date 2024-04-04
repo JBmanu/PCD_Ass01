@@ -1,10 +1,13 @@
 package simulation;
 
 import car.AbstractAgent;
+import inspector.road.RoadSimStatistics;
 import inspector.startStop.StartStopMonitor;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
+import simulation.listener.ModelSimulationListener;
+import simulation.listener.ViewSimulationListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +23,6 @@ public abstract class AbstractSimulation extends Thread {
     /* list of the agents */
     private final List<AbstractAgent> agents;
 
-    /* simulation listeners */
-    private final List<SimulationListener> listeners;
-
     /* logical time step */
     private int dt;
 
@@ -33,17 +33,28 @@ public abstract class AbstractSimulation extends Thread {
     private boolean toBeInSyncWithWallTime;
     private int nStepsPerSec;
 
+    /* simulation listeners */
+    private final List<ModelSimulationListener> modelListeners;
+    private final List<ViewSimulationListener> viewListeners;
+
+    // Model
+    private final RoadSimStatistics roadStatistics;
     private final StartStopMonitor startStopMonitor;
     private final TimeStatistics timeStatistics;
     private final Stepper stepper;
 
     protected AbstractSimulation() {
-        this.agents = new ArrayList<AbstractAgent>();
-        this.listeners = new ArrayList<SimulationListener>();
-        this.toBeInSyncWithWallTime = false;
+        this.agents = new ArrayList<>();
+        this.modelListeners = new ArrayList<>();
+        this.viewListeners = new ArrayList<>();
+
         this.startStopMonitor = new StartStopMonitor();
+        this.roadStatistics = new RoadSimStatistics();
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
+
+        this.toBeInSyncWithWallTime = false;
+        this.setupModeListener();
         this.start();
     }
 
@@ -51,6 +62,27 @@ public abstract class AbstractSimulation extends Thread {
      * Method used to configure the simulation, specifying env and agents
      */
     protected abstract void setup();
+
+    private void setupModeListener() {
+        this.addModelListener(this.roadStatistics);
+    }
+
+    public AbstractEnvironment environment() {
+        return this.env;
+    }
+    public List<AbstractAgent> agents() {
+        return this.agents;
+    }
+
+    public Stepper stepper() {
+        return this.stepper;
+    }
+    public TimeStatistics timeStatistics() {
+        return this.timeStatistics;
+    }
+    public RoadSimStatistics roadStatistics() {
+        return this.roadStatistics;
+    }
 
 
     public void play(final int nStep) {
@@ -79,7 +111,7 @@ public abstract class AbstractSimulation extends Thread {
             a.init(this.env);
         }
 
-        this.notifyReset(t, this.agents, this.env);
+        this.notifyReset(t);
 
         long timePerStep = 0;
 
@@ -94,7 +126,7 @@ public abstract class AbstractSimulation extends Thread {
             }
             t += this.dt;
 
-            this.notifyNewStep(t, this.agents, this.env);
+            this.notifyStepDone(t);
 
             this.stepper.increaseStep();
             timePerStep += System.currentTimeMillis() - this.timeStatistics.currentWallTime();
@@ -105,7 +137,7 @@ public abstract class AbstractSimulation extends Thread {
         }
 
         this.timeStatistics.setEndWallTime(System.currentTimeMillis());
-        this.timeStatistics.setAverageTimeForStep((double)timePerStep / this.stepper.totalStep());
+        this.timeStatistics.setAverageTimeForStep((double) timePerStep / this.stepper.totalStep());
 
         this.notifyEnd();
     }
@@ -138,27 +170,44 @@ public abstract class AbstractSimulation extends Thread {
         this.agents.add(agent);
     }
 
-    /* methods for listeners */
-
-    public void addSimulationListener(final SimulationListener l) {
-        this.listeners.add(l);
+    // listener
+    // adders
+    public void addModelListener(final ModelSimulationListener listener) {
+        this.modelListeners.add(listener);
     }
-
-    private void notifyReset(final int t0, final List<AbstractAgent> agents, final AbstractEnvironment env) {
-        for (final var l : this.listeners) {
-            l.notifyInit(t0, agents, env);
+    public void addViewListener(final ViewSimulationListener listener) {
+        this.viewListeners.add(listener);
+    }
+    // actions
+    private void notifyReset(final int t0) {
+        // Model
+        for (final var listener : this.modelListeners) {
+            listener.notifyInit(t0, this);
+        }
+        // View
+        for (final var listener : this.viewListeners) {
+            listener.notifyInit(t0, this);
         }
     }
 
-    private void notifyNewStep(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
-        for (final var l : this.listeners) {
-            l.notifyStepDone(t, agents, env, this.stepper, this.timeStatistics);
+    private void notifyStepDone(final int t) {
+        // Model
+        for (final var listener : this.modelListeners) {
+            listener.notifyStepDone(t, this);
+        }
+        // View
+        for (final var listener : this.viewListeners) {
+            listener.notifyStepDone(t, this);
         }
     }
-
     private void notifyEnd() {
-        for (final var l : this.listeners) {
-            l.notifyEnd(this.stepper, this.timeStatistics);
+        // Model
+        for (final var listener : this.modelListeners) {
+            listener.notifyEnd(this);
+        }
+        // View
+        for (final var listener : this.viewListeners) {
+            listener.notifyEnd(this);
         }
     }
 
@@ -175,6 +224,7 @@ public abstract class AbstractSimulation extends Thread {
         } catch (final Exception ex) {
         }
     }
+
 
 
 }

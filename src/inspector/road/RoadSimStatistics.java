@@ -1,13 +1,8 @@
 package inspector.road;
 
 import car.CarAgent;
-import inspector.stepper.Stepper;
-import inspector.timeStatistics.TimeStatistics;
-import car.AbstractAgent;
-import road.AbstractEnvironment;
-import simulation.SimulationListener;
-
-import java.util.List;
+import simulation.AbstractSimulation;
+import simulation.listener.ModelSimulationListener;
 
 /**
  * Simple class keeping track of some statistics about a traffic simulation
@@ -15,8 +10,8 @@ import java.util.List;
  * - min speed
  * - max speed
  */
-public class RoadSimStatistics implements SimulationListener {
-
+public class RoadSimStatistics implements ModelSimulationListener {
+	private double currentAverageSpeed;
 	private double averageSpeed;
 	private double minSpeed;
 	private double maxSpeed;
@@ -24,36 +19,37 @@ public class RoadSimStatistics implements SimulationListener {
 	public RoadSimStatistics() {
 	}
 
-
+	public double currentAverageSpeed() {
+		return this.currentAverageSpeed;
+	}
 	public double averageSpeed() {
 		return this.averageSpeed;
 	}
-
 	public double minSpeed() {
 		return this.minSpeed;
 	}
-
 	public double maxSpeed() {
 		return this.maxSpeed;
 	}
 	
 	@Override
-	public void notifyInit(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
+	public void notifyInit(final int t, final AbstractSimulation simulation) {
 		// TODO Auto-generated method stub
 		// log("reset: " + t);
         this.averageSpeed = 0;
+		this.currentAverageSpeed = 0;
 	}
 
 	@Override
-	public void notifyStepDone(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env, Stepper stepper, final TimeStatistics timeStatistics) {
-		double avSpeed = 0;
+	public void notifyStepDone(final int t, final AbstractSimulation simulation) {
+		this.currentAverageSpeed = 0;
 
         this.maxSpeed = -1;
         this.minSpeed = Double.MAX_VALUE;
-		for (final var agent: agents) {
+		for (final var agent: simulation.agents()) {
 			final CarAgent car = (CarAgent) agent;
 			final double currSpeed = car.getCurrentSpeed();
-			avSpeed += currSpeed;			
+            this.currentAverageSpeed += currSpeed;
 			if (currSpeed > this.maxSpeed) {
                 this.maxSpeed = currSpeed;
 			} else if (currSpeed < this.minSpeed) {
@@ -61,14 +57,14 @@ public class RoadSimStatistics implements SimulationListener {
 			}
 		}
 		
-		if (agents.size() > 0) {
-			avSpeed /= agents.size();
+		if (!simulation.agents().isEmpty()) {
+            this.currentAverageSpeed /= simulation.agents().size();
 		}
-        this.log("average speed: " + avSpeed);
+        this.log("average speed: " + this.currentAverageSpeed);
 	}
 
 	@Override
-	public void notifyEnd(Stepper stepper, TimeStatistics timeStatistics) {
+	public void notifyEnd(final AbstractSimulation simulation) {
 
 	}
 

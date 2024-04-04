@@ -4,10 +4,11 @@ import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class RoadStatisticView extends JPanel {
-    private static final int HGAP = 15;
-    private static final String AVERAGE_SPEED = "Average Speed: ";
+    private static final int HGAP = 10;
+    private static final String CURRENT_AVERAGE_SPEED = "Current average Speed: ";
     private static final String MAX_SPEED = "Max Speed: ";
     private static final String MIN_SPEED = "Min Speed: ";
 
@@ -32,7 +33,8 @@ public class RoadStatisticView extends JPanel {
     }
 
     public void updateStatistics(final RoadSimStatistics roadStatistics) {
-        this.averageSpeedLabel.setText(AVERAGE_SPEED + roadStatistics.averageSpeed());
+        final DecimalFormat format = new DecimalFormat("#.####");
+        this.averageSpeedLabel.setText(CURRENT_AVERAGE_SPEED + format.format(roadStatistics.currentAverageSpeed()));
         this.maxSpeedLabel.setText(MAX_SPEED + roadStatistics.maxSpeed());
         this.minSpeedLabel.setText(MIN_SPEED + roadStatistics.minSpeed());
     }

@@ -1,17 +1,17 @@
 package simulation;
 
-import car.AbstractAgent;
-import road.AbstractEnvironment;
 import road.RoadsEnv;
 import inspector.InspectorPanelView;
 import road.RoadPanelView;
+import simulation.listener.ModelSimulationListener;
+import simulation.listener.SimulationListener;
+import simulation.listener.ViewSimulationListener;
 import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
-public class RoadSimView extends JFrame implements SimulationListener {
+public class RoadSimView extends JFrame implements ViewSimulationListener {
     private final InspectorPanelView inspectorPanelView;
     private final RoadPanelView roadPanelView;
     private final BorderLayout layoutManager;
@@ -48,16 +48,13 @@ public class RoadSimView extends JFrame implements SimulationListener {
     }
 
     @Override
-    public void notifyInit(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
+    public void notifyInit(final int t, final AbstractSimulation simulation) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void notifyStepDone(final int t, final List<AbstractAgent> agents,
-                               final AbstractEnvironment env,
-                               final AbstractSimulation simulation) {
-        final var e = ((RoadsEnv) env);
+    public void notifyStepDone(final int t, final AbstractSimulation simulation) {
+        final var e = ((RoadsEnv) simulation.environment());
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
         this.inspectorPanelView.updateInspector(simulation);
     }

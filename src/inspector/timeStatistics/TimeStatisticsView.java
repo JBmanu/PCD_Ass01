@@ -1,13 +1,17 @@
 package inspector.timeStatistics;
 
+import utils.ViewUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class TimeStatisticsView extends JPanel {
+    private static final int HGAP = 15;
     public static final String TIMES = "Times: ";
     public static final String TOTAL_TIME = "Total Time: ";
     public static final String AVERAGE_TIME = "Average Time: ";
     private static final String MILLIS_SECONDS = "ms";
+
     private final JLabel currentAverageTimeLabel;
     private final JLabel currentTotalTimeLabel;
     private final JLabel currentTimesLabel;
@@ -18,12 +22,12 @@ public class TimeStatisticsView extends JPanel {
         this.currentTotalTimeLabel = new JLabel();
         this.currentTimesLabel = new JLabel();
         this.layoutManager = new FlowLayout(FlowLayout.CENTER);
-        this.layoutManager.setHgap(20);
+        this.layoutManager.setHgap(HGAP);
 
         this.currentTimesLabel.setText(TIMES + 0);
 
         this.setLayout(this.layoutManager);
-        this.setBackground(Color.white);
+        this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.add(this.currentTimesLabel);
         this.add(this.currentTotalTimeLabel);
         this.add(this.currentAverageTimeLabel);

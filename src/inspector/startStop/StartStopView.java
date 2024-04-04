@@ -2,6 +2,7 @@ package inspector.startStop;
 
 import simulation.AbstractSimulation;
 import inspector.stepper.StepperView;
+import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,7 @@ public class StartStopView extends JPanel {
 
         this.graphicsSetup();
         this.setLayout(this.layoutManager);
-        this.setBackground(Color.white);
+        this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.add(this.startButton);
         this.add(this.pauseButton);
         this.activateStartButton();

@@ -24,7 +24,7 @@ public class StepperView extends JPanel {
 
         this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.setLayout(this.layoutManager);
-        this.stepTextField.setText("10000");
+        this.stepTextField.setText("100");
         this.currentStepLabel.setText("Current Step: 0");
         this.add(this.titleSetStepLabel);
         this.add(this.stepTextField);

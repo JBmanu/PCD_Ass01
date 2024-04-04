@@ -1,4 +1,4 @@
-package inspector;
+package inspector.road;
 
 import car.CarAgent;
 import inspector.stepper.Stepper;
@@ -22,6 +22,19 @@ public class RoadSimStatistics implements SimulationListener {
 	private double maxSpeed;
 	
 	public RoadSimStatistics() {
+	}
+
+
+	public double averageSpeed() {
+		return this.averageSpeed;
+	}
+
+	public double minSpeed() {
+		return this.minSpeed;
+	}
+
+	public double maxSpeed() {
+		return this.maxSpeed;
 	}
 	
 	@Override
@@ -59,19 +72,6 @@ public class RoadSimStatistics implements SimulationListener {
 
 	}
 
-	public double getAverageSpeed() {
-		return this.averageSpeed;
-	}
-
-	public double getMinSpeed() {
-		return this.minSpeed;
-	}
-	
-	public double getMaxSpeed() {
-		return this.maxSpeed;
-	}
-	
-	
 	private void log(final String msg) {
 		System.out.println("[STAT] " + msg);
 	}

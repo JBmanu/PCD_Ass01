@@ -18,7 +18,7 @@ public class InspectorPanelView extends JPanel {
     private final StepperView stepperView;
     private final TimeStatisticsView timeStatisticsView;
     private final RoadStatisticView roadStatisticView;
-    private final FlowLayout layoutManager;
+    private final BorderLayout layoutManager;
 
     public InspectorPanelView() {
         this.startStopView = new StartStopView();
@@ -26,13 +26,27 @@ public class InspectorPanelView extends JPanel {
         this.timeStatisticsView = new TimeStatisticsView();
         this.roadStatisticView = new RoadStatisticView();
 
-        this.layoutManager = new FlowLayout(FlowLayout.CENTER);
+        this.layoutManager = new BorderLayout();
         this.setLayout(this.layoutManager);
         this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
-        this.add(this.startStopView);
-        this.add(this.stepperView);
-        this.add(this.timeStatisticsView);
-        this.add(this.roadStatisticView);
+        this.setupGraphics();
+    }
+
+    private void setupGraphics() {
+        final JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerPanel.setOpaque(false);
+        centerPanel.add(this.startStopView);
+        centerPanel.add(this.stepperView);
+        this.add(centerPanel, BorderLayout.NORTH);
+
+        final FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+        final JPanel westPanel = new JPanel(flowLayout);
+        final int hgap = 15;
+        westPanel.setOpaque(false);
+        flowLayout.setHgap(hgap);
+        westPanel.add(this.timeStatisticsView);
+        westPanel.add(this.roadStatisticView);
+        this.add(westPanel, BorderLayout.WEST);
     }
 
     public void setupSimulation(final AbstractSimulation simulation) {

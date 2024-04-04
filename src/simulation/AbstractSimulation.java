@@ -123,7 +123,8 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
             /* make a step */
             this.env.step(this.dt);
             for (final var agent : this.agents) {
-                agent.step(this.dt);
+                agent.setDt(this.dt);
+                agent.start();
             }
             t += this.dt;
 
@@ -190,7 +191,6 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
             listener.notifyInit(t0, this);
         }
     }
-
     private void notifyStepDone(final int t) {
         // Model
         for (final var listener : this.modelListeners) {

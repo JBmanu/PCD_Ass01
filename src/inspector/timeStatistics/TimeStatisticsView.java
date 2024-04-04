@@ -15,22 +15,21 @@ public class TimeStatisticsView extends JPanel {
     private final JLabel currentAverageTimeLabel;
     private final JLabel currentTotalTimeLabel;
     private final JLabel currentTimesLabel;
-    private final FlowLayout layoutManager;
+    private final BoxLayout layoutManager;
 
     public TimeStatisticsView() {
         this.currentAverageTimeLabel = new JLabel();
         this.currentTotalTimeLabel = new JLabel();
         this.currentTimesLabel = new JLabel();
-        this.layoutManager = new FlowLayout(FlowLayout.CENTER);
-        this.layoutManager.setHgap(HGAP);
+        this.layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
 
         this.currentTimesLabel.setText(TIMES + 0);
 
         this.setLayout(this.layoutManager);
-        this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.add(this.currentTimesLabel);
         this.add(this.currentTotalTimeLabel);
         this.add(this.currentAverageTimeLabel);
+        this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
     }
 
     public void updateStatistics(final TimeStatistics timeStatistics) {

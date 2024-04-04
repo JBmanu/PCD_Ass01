@@ -15,14 +15,13 @@ public class RoadStatisticView extends JPanel {
     private final JLabel averageSpeedLabel;
     private final JLabel maxSpeedLabel;
     private final JLabel minSpeedLabel;
-    private final FlowLayout layoutManager;
+    private final BoxLayout layoutManager;
 
     public RoadStatisticView() {
         this.averageSpeedLabel = new JLabel();
         this.maxSpeedLabel = new JLabel();
         this.minSpeedLabel = new JLabel();
-        this.layoutManager = new FlowLayout(FlowLayout.CENTER);
-        this.layoutManager.setHgap(HGAP);
+        this.layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
 
         this.setLayout(this.layoutManager);
         this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);

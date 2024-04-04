@@ -6,7 +6,7 @@ import simengineseq.AbstractAgent;
 import simengineseq.AbstractEnvironment;
 import simengineseq.AbstractSimulation;
 import simengineseq.SimulationListener;
-import simtrafficbase.*;
+import simtrafficbase.RoadsEnv;
 import view.commands.CommandsPanelView;
 
 import javax.swing.*;
@@ -14,50 +14,61 @@ import java.awt.*;
 import java.util.List;
 
 public class RoadSimView extends JFrame implements SimulationListener {
-	private final CommandsPanelView commandsPanelView;
-	private final RoadPanelView roadPanelView;
-	private final BorderLayout layoutManager;
+    private final CommandsPanelView commandsPanelView;
+    private final RoadPanelView roadPanelView;
+    private final BorderLayout layoutManager;
+    private final JPanel glassPane;
 
-	public RoadSimView() {
-		super("RoadSim View");
+    public RoadSimView() {
+        super("RoadSim View");
         this.setSize(ViewUtils.GUI_WIDTH, ViewUtils.GUI_HEIGHT);
-		this.commandsPanelView = new CommandsPanelView();
+        this.commandsPanelView = new CommandsPanelView();
         this.roadPanelView = new RoadPanelView(ViewUtils.ROAD_WIDTH, ViewUtils.ROAD_HEIGHT);
-		this.layoutManager = new BorderLayout();
+        this.layoutManager = new BorderLayout();
+        this.glassPane = new JPanel();
 
-		this.setLayout(this.layoutManager);
-		this.add(BorderLayout.NORTH, this.commandsPanelView);
-		this.add(BorderLayout.CENTER, this.roadPanelView);
+        this.setupGlassPane();
+        this.setLayout(this.layoutManager);
+
+        this.glassPane.add(this.commandsPanelView, BorderLayout.NORTH);
+        this.add(BorderLayout.CENTER, this.roadPanelView);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setResizable(false);
-		SwingUtilities.invokeLater(() -> this.setVisible(true));
-	}
+        this.setResizable(false);
+        SwingUtilities.invokeLater(() -> this.setVisible(true));
+    }
 
-	public void setupCommandsSimulation(final AbstractSimulation simulation) {
-		this.commandsPanelView.setupSimulation(simulation);
-	}
+    private void setupGlassPane() {
+        this.setGlassPane(this.glassPane);
+        this.glassPane.setLayout(new BorderLayout());
+        this.glassPane.setOpaque(false);
+        this.glassPane.setVisible(true);
+    }
 
-	@Override
-	public void notifyInit(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setupCommandsSimulation(final AbstractSimulation simulation) {
+        this.commandsPanelView.setupSimulation(simulation);
+    }
 
-	@Override
-	public void notifyStepDone(final int t, final List<AbstractAgent> agents,
-							   final AbstractEnvironment env,
-							   final Stepper stepper,
-							   final TimeStatistics timeStatistics) {
-		final var e = ((RoadsEnv) env);
+    @Override
+    public void notifyInit(final int t, final List<AbstractAgent> agents, final AbstractEnvironment env) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void notifyStepDone(final int t, final List<AbstractAgent> agents,
+                               final AbstractEnvironment env,
+                               final Stepper stepper,
+                               final TimeStatistics timeStatistics) {
+        final var e = ((RoadsEnv) env);
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
-		this.commandsPanelView.updateCommands(stepper, timeStatistics);
-	}
+        this.commandsPanelView.updateCommands(stepper, timeStatistics);
+    }
 
-	@Override
-	public void notifyEnd(Stepper stepper, TimeStatistics timeStatistics) {
-		this.commandsPanelView.lastUpdateCommands(timeStatistics);
-	}
+    @Override
+    public void notifyEnd(final Stepper stepper, final TimeStatistics timeStatistics) {
+        this.commandsPanelView.lastUpdateCommands(timeStatistics);
+    }
 
 
 }

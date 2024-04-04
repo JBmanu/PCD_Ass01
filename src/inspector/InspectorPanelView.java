@@ -1,6 +1,7 @@
 package inspector;
 
 import inspector.road.RoadStatisticView;
+import inspector.startStop.StartStopSimulationRunnable;
 import inspector.stepper.Stepper;
 import inspector.stepper.StepperView;
 import inspector.timeStatistics.TimeStatistics;
@@ -49,7 +50,7 @@ public class InspectorPanelView extends JPanel {
         this.add(westPanel, BorderLayout.WEST);
     }
 
-    public void setupSimulation(final AbstractSimulation simulation) {
+    public void setupSimulation(final StartStopSimulationRunnable simulation) {
         this.startStopView.setupSimulation(simulation, this.stepperView);
     }
 

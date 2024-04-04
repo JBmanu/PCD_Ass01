@@ -1,5 +1,6 @@
 package simulation;
 
+import inspector.startStop.StartStopSimulationRunnable;
 import road.RoadsEnv;
 import inspector.InspectorPanelView;
 import road.RoadPanelView;
@@ -43,7 +44,7 @@ public class RoadSimView extends JFrame implements ViewSimulationListener {
         this.glassPane.setVisible(true);
     }
 
-    public void setupCommandsSimulation(final AbstractSimulation simulation) {
+    public void setupCommandsSimulation(final StartStopSimulationRunnable simulation) {
         this.inspectorPanelView.setupSimulation(simulation);
     }
 

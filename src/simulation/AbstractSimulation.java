@@ -3,6 +3,7 @@ package simulation;
 import car.AbstractAgent;
 import inspector.road.RoadSimStatistics;
 import inspector.startStop.StartStopMonitor;
+import inspector.startStop.StartStopSimulationRunnable;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Base class for defining concrete simulations
  */
-public abstract class AbstractSimulation extends Thread {
+public abstract class AbstractSimulation extends Thread implements StartStopSimulationRunnable {
 
     /* environment of the simulation */
     private AbstractEnvironment env;
@@ -85,8 +86,8 @@ public abstract class AbstractSimulation extends Thread {
     }
 
 
-    public void play(final int nStep) {
-        this.stepper.setTotalStep(nStep);
+    public void play(final int nSteps) {
+        this.stepper.setTotalStep(nSteps);
         this.startStopMonitor.play();
     }
 

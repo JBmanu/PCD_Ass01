@@ -60,7 +60,7 @@ public class StartStopView extends JPanel {
         this.activateStartButton();
     }
 
-    public void setupSimulation(final AbstractSimulation simulation, final StepperView stepperView) {
+    public void setupSimulation(final StartStopSimulationRunnable simulation, final StepperView stepperView) {
         this.startButton.addActionListener(e -> {
             final int steps = stepperView.getStep();
             if (steps < 1) return;

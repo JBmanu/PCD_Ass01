@@ -2,7 +2,7 @@ package car;
 
 import road.Road;
 
-public  class CarAgentInfo {
+public class CarAgentInfo {
 
 	private final CarAgent car;
 	private double pos;

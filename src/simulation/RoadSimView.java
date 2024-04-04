@@ -1,7 +1,5 @@
 package simulation;
 
-import inspector.stepper.Stepper;
-import inspector.timeStatistics.TimeStatistics;
 import car.AbstractAgent;
 import road.AbstractEnvironment;
 import road.RoadsEnv;
@@ -58,16 +56,15 @@ public class RoadSimView extends JFrame implements SimulationListener {
     @Override
     public void notifyStepDone(final int t, final List<AbstractAgent> agents,
                                final AbstractEnvironment env,
-                               final Stepper stepper,
-                               final TimeStatistics timeStatistics) {
+                               final AbstractSimulation simulation) {
         final var e = ((RoadsEnv) env);
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
-        this.inspectorPanelView.updateCommands(stepper, timeStatistics);
+        this.inspectorPanelView.updateInspector(simulation);
     }
 
     @Override
-    public void notifyEnd(final Stepper stepper, final TimeStatistics timeStatistics) {
-        this.inspectorPanelView.lastUpdateCommands(timeStatistics);
+    public void notifyEnd(final AbstractSimulation simulation) {
+        this.inspectorPanelView.endUpdateInspector(simulation);
     }
 
 

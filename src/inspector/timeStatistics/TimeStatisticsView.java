@@ -37,7 +37,7 @@ public class TimeStatisticsView extends JPanel {
         this.currentTimesLabel.setText(TIMES + timeStatistics.currentWallTimeSubtractStartWallTime() + MILLIS_SECONDS);
     }
 
-    public void lastUpdateStatistics(final TimeStatistics timeStatistics) {
+    public void endUpdateStatistics(final TimeStatistics timeStatistics) {
         this.currentAverageTimeLabel.setText(AVERAGE_TIME + timeStatistics.averageTimeForStep() + MILLIS_SECONDS);
         this.currentTotalTimeLabel.setText(TOTAL_TIME + timeStatistics.totalWallTime() + MILLIS_SECONDS);
     }

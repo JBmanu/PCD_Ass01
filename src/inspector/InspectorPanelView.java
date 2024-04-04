@@ -1,5 +1,6 @@
 package inspector;
 
+import inspector.road.RoadStatisticView;
 import inspector.stepper.Stepper;
 import inspector.stepper.StepperView;
 import inspector.timeStatistics.TimeStatistics;
@@ -16,12 +17,14 @@ public class InspectorPanelView extends JPanel {
     private final StartStopView startStopView;
     private final StepperView stepperView;
     private final TimeStatisticsView timeStatisticsView;
+    private final RoadStatisticView roadStatisticView;
     private final FlowLayout layoutManager;
 
     public InspectorPanelView() {
         this.startStopView = new StartStopView();
         this.stepperView = new StepperView();
         this.timeStatisticsView = new TimeStatisticsView();
+        this.roadStatisticView = new RoadStatisticView();
 
         this.layoutManager = new FlowLayout(FlowLayout.CENTER);
         this.setLayout(this.layoutManager);
@@ -29,22 +32,23 @@ public class InspectorPanelView extends JPanel {
         this.add(this.startStopView);
         this.add(this.stepperView);
         this.add(this.timeStatisticsView);
+        this.add(this.roadStatisticView);
     }
 
     public void setupSimulation(final AbstractSimulation simulation) {
         this.startStopView.setupSimulation(simulation, this.stepperView);
     }
 
-    public void updateCommands(final Stepper stepper, final TimeStatistics timeStatistics) {
+    public void updateInspector(final AbstractSimulation simulation) {
         SwingUtilities.invokeLater(() -> {
-            this.stepperView.updateStepper(stepper);
-            this.timeStatisticsView.updateStatistics(timeStatistics);
+            this.stepperView.updateStepper(simulation.stepper());
+            this.timeStatisticsView.updateStatistics(simulation.timeStatistics());
         });
     }
 
-    public void lastUpdateCommands(final TimeStatistics timeStatistics) {
+    public void endUpdateInspector(final AbstractSimulation simulation) {
         SwingUtilities.invokeLater(() -> {
-            this.timeStatisticsView.lastUpdateStatistics(timeStatistics);
+            this.timeStatisticsView.endUpdateStatistics(simulation.timeStatistics());
         });
     }
 }

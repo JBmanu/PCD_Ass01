@@ -1,6 +1,6 @@
 package car;
 
-import road.AbstractEnvironment;
+import car.command.InvokerCarCommand;
 import simengineseq.*;
 import road.Road;
 import road.RoadsEnv;
@@ -13,7 +13,7 @@ import java.util.Optional;
  * 
  */
 public abstract class CarAgent extends AbstractAgent {
-	
+	private final InvokerCarCommand invokerCarCommand;
 	/* car model */
 	protected double maxSpeed;		
 	protected double currentSpeed;  
@@ -24,7 +24,7 @@ public abstract class CarAgent extends AbstractAgent {
 	private int dt;
 	protected CarPercept currentPercept;
 	protected Optional<Action> selectedAction;
-	
+
 	
 	public CarAgent(final String id, final RoadsEnv env, final Road road,
 					final double initialPos,
@@ -36,10 +36,23 @@ public abstract class CarAgent extends AbstractAgent {
 		this.deceleration = dec;
 		this.maxSpeed = vmax;
 		env.registerNewCar(this, road, initialPos);
+		this.invokerCarCommand = new InvokerCarCommand(this);
 	}
 
-	protected int getDt() {
+	protected int dt() {
 		return this.dt;
+	}
+	public Optional<Action> selectedAction() {
+		return this.selectedAction;
+	}
+	public double getCurrentSpeed() {
+		return this.currentSpeed;
+	}
+	public void setCurrentPercept(final CarPercept percept) {
+		this.currentPercept = percept;
+	}
+	public void setSelectedAction(final Optional<Action> action) {
+		this.selectedAction = action;
 	}
 
 	/**
@@ -50,42 +63,17 @@ public abstract class CarAgent extends AbstractAgent {
 	@Override
 	public void step(final int dt) {
 		this.dt = dt;
-
-		/* sense */
-		final AbstractEnvironment env = this.getEnv();
-        this.currentPercept = (CarPercept) env.getCurrentPercepts(this.getId());
-
-		/* decide */
-        this.selectedAction = Optional.empty();
-        this.decide();
-		
-		/* act */
-		if (this.selectedAction.isPresent()) {
-			env.doAction(this.getId(), this.selectedAction.get());
-		}
+		this.invokerCarCommand.sense();
+		this.invokerCarCommand.decide();
+		this.invokerCarCommand.action();
 	}
 
-	public void sense() {
-		final AbstractEnvironment env = this.getEnv();
-		this.currentPercept = (CarPercept) env.getCurrentPercepts(this.getId());
-	}
-	
 	/**
 	 * 
 	 * Base method to define the behaviour strategy of the car
 	 */
 	public abstract void decide();
 
-	public void action() {
-		if (this.selectedAction.isPresent()) {
-			this.getEnv().doAction(this.getId(), this.selectedAction.get());
-		}
-	}
-	
-	public double getCurrentSpeed() {
-		return this.currentSpeed;
-	}
-	
 	protected void log(final String msg) {
 		System.out.println("[CAR " + this.getId() + "] " + msg);
 	}

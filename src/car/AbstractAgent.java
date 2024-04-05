@@ -1,6 +1,8 @@
 package car;
 
 import road.AbstractEnvironment;
+import simengineseq.Action;
+import simengineseq.Percept;
 
 /**
  * Base  class for defining types of agents taking part to the simulation
@@ -39,5 +41,13 @@ public abstract class AbstractAgent {
 
     protected AbstractEnvironment getEnv() {
         return this.env;
+    }
+
+    public Percept getCurrentPercepts() {
+        return this.env.getCurrentPercepts(this.myId);
+    }
+
+    public void doAction(final Action action) {
+        this.env.doAction(this.myId, action);
     }
 }

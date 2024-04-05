@@ -1,6 +1,7 @@
 package car.command;
 
 import car.CarAgent;
+import car.CarPercept;
 
 public class CarSenseCommand implements CarCommand {
 
@@ -13,6 +14,6 @@ public class CarSenseCommand implements CarCommand {
 
     @Override
     public void execute() {
-        this.car.sense();
+        this.car.setCurrentPercept((CarPercept) this.car.getCurrentPercepts());
     }
 }

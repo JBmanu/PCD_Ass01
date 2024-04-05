@@ -2,6 +2,8 @@ package car.command;
 
 import car.CarAgent;
 
+import java.util.Optional;
+
 public class CarDecideCommand implements CarCommand {
     private final CarAgent car;
 
@@ -11,6 +13,7 @@ public class CarDecideCommand implements CarCommand {
 
     @Override
     public void execute() {
+        this.car.setSelectedAction(Optional.empty());
         this.car.decide();
     }
 }

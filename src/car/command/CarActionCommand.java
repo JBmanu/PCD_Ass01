@@ -11,6 +11,6 @@ public class CarActionCommand implements CarCommand {
 
     @Override
     public void execute() {
-
+        this.car.selectedAction().ifPresent(this.car::doAction);
     }
 }

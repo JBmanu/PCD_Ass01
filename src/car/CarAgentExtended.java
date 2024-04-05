@@ -43,7 +43,9 @@ public class CarAgentExtended extends CarAgent {
 	
 	
 	@Override
-	public void decide(final int dt) {
+	public void decide() {
+		final int dt = this.getDt();
+
 		switch (this.state) {
 		case CarAgentState.STOPPED:
 			if (!this.detectedNearCar()) {

@@ -1,8 +1,8 @@
 package car.worker;
 
-import car.command.InvokerCarCommand;
+import car.command.InvokerCommand;
 
 public interface CarWorker extends Runnable {
 
-    void addInvokerCarInvoker(InvokerCarCommand invokerCarCommand);
+    void addInvokerCarInvoker(InvokerCommand invokerCarCommand);
 }

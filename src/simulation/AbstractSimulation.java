@@ -1,6 +1,8 @@
 package simulation;
 
 import car.AbstractAgent;
+import car.barrier.CarBarrier3Worker;
+import car.barrier.CarBarrierLogic;
 import inspector.road.RoadSimStatistics;
 import inspector.startStop.StartStopMonitor;
 import inspector.startStop.StartStopSimulationRunnable;
@@ -38,11 +40,15 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
     private final List<ModelSimulationListener> modelListeners;
     private final List<ViewSimulationListener> viewListeners;
 
+    // CarBarrier
+    private final CarBarrierLogic carBarrierLogic;
+
     // Model
     private final RoadSimStatistics roadStatistics;
     private final StartStopMonitor startStopMonitor;
     private final TimeStatistics timeStatistics;
     private final Stepper stepper;
+
 
     protected AbstractSimulation() {
         this.agents = new ArrayList<>();
@@ -53,6 +59,8 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
         this.roadStatistics = new RoadSimStatistics();
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
+
+        this.carBarrierLogic = new CarBarrier3Worker();
 
         this.toBeInSyncWithWallTime = false;
         this.setupModeListener();
@@ -169,6 +177,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
     protected void addAgent(final AbstractAgent agent) {
         this.agents.add(agent);
+        this.carBarrierLogic.addInvokerCommand(agent.invokerCommand());
     }
 
     // listener

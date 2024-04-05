@@ -1,6 +1,7 @@
 package car;
 
-import car.command.InvokerCarCommand;
+import car.command.InvokerCommand;
+import car.command.InvokerCarCommandImpl;
 import simengineseq.*;
 import road.Road;
 import road.RoadsEnv;
@@ -13,7 +14,6 @@ import java.util.Optional;
  * 
  */
 public abstract class CarAgent extends AbstractAgent {
-	private final InvokerCarCommand invokerCarCommand;
 	/* car model */
 	protected double maxSpeed;		
 	protected double currentSpeed;  
@@ -24,8 +24,8 @@ public abstract class CarAgent extends AbstractAgent {
 	private int dt;
 	protected CarPercept currentPercept;
 	protected Optional<Action> selectedAction;
+	private final InvokerCommand invokerCarCommand;
 
-	
 	public CarAgent(final String id, final RoadsEnv env, final Road road,
 					final double initialPos,
 					final double acc,
@@ -36,9 +36,13 @@ public abstract class CarAgent extends AbstractAgent {
 		this.deceleration = dec;
 		this.maxSpeed = vmax;
 		env.registerNewCar(this, road, initialPos);
-		this.invokerCarCommand = new InvokerCarCommand(this);
+		this.invokerCarCommand = new InvokerCarCommandImpl(this);
 	}
 
+	@Override
+	public InvokerCommand invokerCommand() {
+		return this.invokerCarCommand;
+	}
 	protected int dt() {
 		return this.dt;
 	}

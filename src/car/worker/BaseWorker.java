@@ -1,13 +1,13 @@
 package car.worker;
 
-import car.command.InvokerCarCommand;
+import car.command.InvokerCommand;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.SynchronousQueue;
 
 public abstract class BaseWorker {
-    private final BlockingQueue<InvokerCarCommand> invokerCarCommandQueue;
+    private final BlockingQueue<InvokerCommand> invokerCarCommandQueue;
     private final CyclicBarrier barrier;
 
     protected BaseWorker(final CyclicBarrier barrier) {
@@ -23,7 +23,7 @@ public abstract class BaseWorker {
         return this.invokerCarCommandQueue.isEmpty();
     }
 
-    protected InvokerCarCommand takeInvokerCarCommand() {
+    protected InvokerCommand takeInvokerCarCommand() {
         try {
             return this.invokerCarCommandQueue.take();
         } catch (InterruptedException e) {
@@ -31,7 +31,7 @@ public abstract class BaseWorker {
         }
     }
 
-    public void addInvokerCarInvoker(final InvokerCarCommand invokerCarCommand) {
+    public void addInvokerCarInvoker(final InvokerCommand invokerCarCommand) {
         this.invokerCarCommandQueue.add(invokerCarCommand);
     }
 

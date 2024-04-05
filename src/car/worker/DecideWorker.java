@@ -4,7 +4,7 @@ import java.util.concurrent.CyclicBarrier;
 
 public class DecideWorker extends BaseWorker implements CarWorker {
 
-    protected DecideWorker(final CyclicBarrier barrier) {
+    public DecideWorker(final CyclicBarrier barrier) {
         super(barrier);
     }
 

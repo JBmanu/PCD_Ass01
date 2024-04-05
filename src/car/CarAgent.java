@@ -19,7 +19,6 @@ public abstract class CarAgent extends AbstractAgent {
 	protected double currentSpeed;  
 	protected double acceleration;
 	protected double deceleration;
-	protected int dt;
 
 	/* percept and action retrieved and submitted at each step */
 	protected CarPercept currentPercept;
@@ -38,34 +37,24 @@ public abstract class CarAgent extends AbstractAgent {
 		env.registerNewCar(this, road, initialPos);
 	}
 
-	@Override
-	public void setDt(final int dt) {
-		this.dt = dt;
-	}
-
 	/**
 	 * 
 	 * Basic behaviour of a car agent structured into a sense/decide/act structure 
 	 * 
 	 */
 	@Override
-	public void step() {
-
+	public void step(final int dt) {
 		/* sense */
-
 		final AbstractEnvironment env = this.getEnv();
-        this.currentPercept = (CarPercept) env.getCurrentPercepts(this.getMyId());
+        this.currentPercept = (CarPercept) env.getCurrentPercepts(this.getId());
 
 		/* decide */
-
         this.selectedAction = Optional.empty();
-
-        this.decide(this.dt);
+        this.decide(dt);
 		
 		/* act */
-		
 		if (this.selectedAction.isPresent()) {
-			env.doAction(this.getMyId(), this.selectedAction.get());
+			env.doAction(this.getId(), this.selectedAction.get());
 		}
 	}
 	

@@ -123,8 +123,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
             /* make a step */
             this.env.step(this.dt);
             for (final var agent : this.agents) {
-                agent.setDt(this.dt);
-                agent.start();
+                agent.step(this.dt);
             }
             t += this.dt;
 

@@ -8,9 +8,9 @@ public class InvokerCarCommand {
     private final CarCommand actionCommand;
 
     public InvokerCarCommand(final CarAgent car) {
-        this.senseCommand = new CarSenseCommand(car);
-        this.decideCommand = new CarDecideCommand(car);
-        this.actionCommand = new CarActionCommand(car);
+        this.senseCommand = new SenseCommand(car);
+        this.decideCommand = new DecideCommand(car);
+        this.actionCommand = new ActionCommand(car);
     }
 
     public void sense() {

@@ -2,10 +2,10 @@ package car.command;
 
 import car.CarAgent;
 
-public class CarActionCommand implements CarCommand {
+public class ActionCommand implements CarCommand {
     private final CarAgent car;
 
-    public CarActionCommand(final CarAgent car) {
+    public ActionCommand(final CarAgent car) {
         this.car = car;
     }
 

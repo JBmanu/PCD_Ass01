@@ -4,10 +4,10 @@ import car.CarAgent;
 
 import java.util.Optional;
 
-public class CarDecideCommand implements CarCommand {
+public class DecideCommand implements CarCommand {
     private final CarAgent car;
 
-    public CarDecideCommand(final CarAgent car) {
+    public DecideCommand(final CarAgent car) {
         this.car = car;
     }
 

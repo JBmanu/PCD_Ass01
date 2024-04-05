@@ -3,11 +3,11 @@ package car.command;
 import car.CarAgent;
 import car.CarPercept;
 
-public class CarSenseCommand implements CarCommand {
+public class SenseCommand implements CarCommand {
 
     private final CarAgent car;
 
-    public CarSenseCommand(final CarAgent car) {
+    public SenseCommand(final CarAgent car) {
         this.car = car;
     }
 

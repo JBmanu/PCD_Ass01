@@ -46,10 +46,6 @@ public class CarBarrier3Worker implements AgentBarrierLogic {
     @Override
     public void execute(final int dt) {
         this.senseWorker.startStopSimulation().play();
-//        this.invokerCarCommands.forEach(invoker -> invoker.setup(dt));
-//        this.invokerCarCommands.forEach(InvokerCommand::sense);
-//        this.invokerCarCommands.forEach(InvokerCommand::decide);
-//        this.invokerCarCommands.forEach(InvokerCommand::action);
     }
 
 }

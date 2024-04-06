@@ -1,15 +1,15 @@
-package inspector.startStop;
+package monitor;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StartStopMonitor {
+public class StartStopMonitorImpl implements StartStopMonitor {
     private final Lock mutex;
     private final Condition conditionRunning;
     private boolean isRunning;
 
-    public StartStopMonitor() {
+    public StartStopMonitorImpl() {
         this.mutex = new ReentrantLock();
         this.conditionRunning = this.mutex.newCondition();
     }
@@ -30,6 +30,7 @@ public class StartStopMonitor {
         }
     }
 
+    @Override
     public void play() {
         try {
             this.mutex.lock();
@@ -40,6 +41,7 @@ public class StartStopMonitor {
         }
     }
 
+    @Override
     public void pause() {
         try {
             this.mutex.lock();

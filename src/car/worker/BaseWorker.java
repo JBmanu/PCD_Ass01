@@ -1,26 +1,22 @@
 package car.worker;
 
 import car.command.InvokerCommand;
-import inspector.startStop.StartStopMonitor;
-import inspector.startStop.StartStopSimulationRunnable;
+import monitor.StartStopMonitorImpl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class BaseWorker extends Thread implements CarWorker {
     private final CyclicBarrier barrier;
     private final List<InvokerCommand> invokerCarCommandQueue;
-    private final StartStopMonitor startStopMonitor;
-    private StartStopMonitor startStopMonitorInTail;
+    private final StartStopMonitorImpl startStopMonitor;
+    private StartStopMonitorImpl startStopMonitorInTail;
 
     protected BaseWorker(final CyclicBarrier barrier) {
         this.invokerCarCommandQueue = new ArrayList<>();
-        this.startStopMonitor = new StartStopMonitor();
+        this.startStopMonitor = new StartStopMonitorImpl();
         this.barrier = barrier;
     }
 
@@ -37,7 +33,7 @@ public abstract class BaseWorker extends Thread implements CarWorker {
     }
 
     @Override
-    public StartStopMonitor startStopSimulation() {
+    public StartStopMonitorImpl startStopSimulation() {
         return this.startStopMonitor;
     }
     @Override
@@ -45,7 +41,7 @@ public abstract class BaseWorker extends Thread implements CarWorker {
         this.invokerCarCommandQueue.add(invokerCommand);
     }
     @Override
-    public void setStartStopInTail(final StartStopMonitor startStopMonitor) {
+    public void setStartStopInTail(final StartStopMonitorImpl startStopMonitor) {
         this.startStopMonitorInTail = startStopMonitor;
     }
 

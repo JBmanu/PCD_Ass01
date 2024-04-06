@@ -4,8 +4,7 @@ import car.AbstractAgent;
 import car.barrier.CarBarrier3Worker;
 import car.barrier.AgentBarrierLogic;
 import inspector.road.RoadSimStatistics;
-import inspector.startStop.StartStopMonitor;
-import inspector.startStop.StartStopSimulationRunnable;
+import monitor.StartStopMonitorImpl;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * Base class for defining concrete simulations
  */
-public abstract class AbstractSimulation extends Thread implements StartStopSimulationRunnable {
+public abstract class AbstractSimulation extends Thread implements CommandsSimulation {
 
     /* environment of the simulation */
     private AbstractEnvironment env;
@@ -45,7 +44,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
     // Model
     private final RoadSimStatistics roadStatistics;
-    private final StartStopMonitor startStopMonitor;
+    private final StartStopMonitorImpl startStopMonitor;
     private final TimeStatistics timeStatistics;
     private final Stepper stepper;
 
@@ -55,7 +54,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
         this.modelListeners = new ArrayList<>();
         this.viewListeners = new ArrayList<>();
 
-        this.startStopMonitor = new StartStopMonitor();
+        this.startStopMonitor = new StartStopMonitorImpl();
         this.roadStatistics = new RoadSimStatistics();
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
@@ -63,7 +62,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
         this.agentBarrierLogic = new CarBarrier3Worker(this);
 
         this.toBeInSyncWithWallTime = false;
-        this.setupModeListener();
+        this.setupModelListener();
         this.start();
     }
 
@@ -72,42 +71,33 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
      */
     protected abstract void setup();
 
-    private void setupModeListener() {
+    private void setupModelListener() {
         this.addModelListener(this.roadStatistics);
     }
 
+    @Override
     public AbstractEnvironment environment() {
         return this.env;
     }
+    @Override
     public List<AbstractAgent> agents() {
         return this.agents;
     }
-
+    @Override
     public Stepper stepper() {
         return this.stepper;
     }
-    public StartStopMonitor startStopMonitor() {
+    @Override
+    public StartStopMonitorImpl startStopMonitor() {
         return this.startStopMonitor;
     }
+    @Override
     public TimeStatistics timeStatistics() {
         return this.timeStatistics;
     }
+    @Override
     public RoadSimStatistics roadStatistics() {
         return this.roadStatistics;
-    }
-
-
-    public void play(final int nSteps) {
-        this.stepper.setTotalStep(nSteps);
-        this.startStopMonitor.play();
-    }
-
-    public void play() {
-        this.startStopMonitor.play();
-    }
-
-    public void pause() {
-        this.startStopMonitor.pause();
     }
 
     /**
@@ -141,17 +131,8 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
             this.agents.forEach(agent -> agent.step(this.dt));
             this.agentBarrierLogic.execute(this.dt);
-            this.pause();
+            this.startStopMonitor.pause();
             this.startStopMonitor.waitUntilRunning();
-
-//            for (final var agent : this.agents) {
-////                agent.setTimeDt(this.dt);
-//                agent.step(this.dt);
-//            }
-
-//            this.agentBarrierLogic.execute();
-//            this.pause();
-//            this.startStopMonitor.waitUntilRunning();
 
             t += this.dt;
 

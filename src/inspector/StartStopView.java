@@ -1,7 +1,7 @@
-package inspector.startStop;
+package inspector;
 
-import simulation.AbstractSimulation;
 import inspector.stepper.StepperView;
+import simulation.CommandsSimulation;
 import utils.ViewUtils;
 
 import javax.swing.*;
@@ -60,15 +60,16 @@ public class StartStopView extends JPanel {
         this.activateStartButton();
     }
 
-    public void setupSimulation(final StartStopSimulationRunnable simulation, final StepperView stepperView) {
+    public void setupSimulation(final CommandsSimulation simulation, final StepperView stepperView) {
         this.startButton.addActionListener(e -> {
             final int steps = stepperView.getStep();
             if (steps < 1) return;
-            simulation.play(steps);
+            simulation.stepper().setTotalStep(steps);
+            simulation.startStopMonitor().play();
             this.switchStop();
         });
         this.pauseButton.addActionListener(e -> {
-            simulation.pause();
+            simulation.startStopMonitor().pause();
             this.switchStart();
         });
     }

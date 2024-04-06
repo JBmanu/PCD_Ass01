@@ -2,6 +2,7 @@ package inspector.road;
 
 import car.CarAgent;
 import simulation.AbstractSimulation;
+import simulation.CommandsSimulation;
 import simulation.listener.ModelSimulationListener;
 
 /**
@@ -33,7 +34,7 @@ public class RoadSimStatistics implements ModelSimulationListener {
 	}
 	
 	@Override
-	public void notifyInit(final int t, final AbstractSimulation simulation) {
+	public void notifyInit(final int t, final CommandsSimulation simulation) {
 		// TODO Auto-generated method stub
 		// log("reset: " + t);
         this.averageSpeed = 0;
@@ -41,7 +42,7 @@ public class RoadSimStatistics implements ModelSimulationListener {
 	}
 
 	@Override
-	public void notifyStepDone(final int t, final AbstractSimulation simulation) {
+	public void notifyStepDone(final int t, final CommandsSimulation simulation) {
 		this.currentAverageSpeed = 0;
 
         this.maxSpeed = -1;
@@ -64,7 +65,7 @@ public class RoadSimStatistics implements ModelSimulationListener {
 	}
 
 	@Override
-	public void notifyEnd(final AbstractSimulation simulation) {
+	public void notifyEnd(final CommandsSimulation simulation) {
 
 	}
 

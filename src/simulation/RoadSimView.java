@@ -1,11 +1,8 @@
 package simulation;
 
-import inspector.startStop.StartStopSimulationRunnable;
 import road.RoadsEnv;
 import inspector.InspectorPanelView;
 import road.RoadPanelView;
-import simulation.listener.ModelSimulationListener;
-import simulation.listener.SimulationListener;
 import simulation.listener.ViewSimulationListener;
 import utils.ViewUtils;
 
@@ -44,24 +41,24 @@ public class RoadSimView extends JFrame implements ViewSimulationListener {
         this.glassPane.setVisible(true);
     }
 
-    public void setupCommandsSimulation(final StartStopSimulationRunnable simulation) {
+    public void setupCommandsSimulation(final CommandsSimulation simulation) {
         this.inspectorPanelView.setupSimulation(simulation);
     }
 
     @Override
-    public void notifyInit(final int t, final AbstractSimulation simulation) {
+    public void notifyInit(final int t, final CommandsSimulation simulation) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void notifyStepDone(final int t, final AbstractSimulation simulation) {
+    public void notifyStepDone(final int t, final CommandsSimulation simulation) {
         final var e = ((RoadsEnv) simulation.environment());
         this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
         this.inspectorPanelView.updateInspector(simulation);
     }
 
     @Override
-    public void notifyEnd(final AbstractSimulation simulation) {
+    public void notifyEnd(final CommandsSimulation simulation) {
         this.inspectorPanelView.endUpdateInspector(simulation);
     }
 

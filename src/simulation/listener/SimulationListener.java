@@ -1,10 +1,6 @@
 package simulation.listener;
 
-import car.AbstractAgent;
-import road.AbstractEnvironment;
-import simulation.AbstractSimulation;
-
-import java.util.List;
+import simulation.CommandsSimulation;
 
 public interface SimulationListener {
 
@@ -13,13 +9,13 @@ public interface SimulationListener {
 	 * 
 	 * @param t
 	 */
-	void notifyInit(int t, final AbstractSimulation simulation);
+	void notifyInit(int t, final CommandsSimulation simulation);
 	
 	/**
 	 * Called at each step, updater all updates
 	 * @param t
 	 */
-	void notifyStepDone(final int t, final AbstractSimulation simulation);
+	void notifyStepDone(final int t, final CommandsSimulation simulation);
 
-	void notifyEnd(final AbstractSimulation simulation);
+	void notifyEnd(final CommandsSimulation simulation);
 }

@@ -1,6 +1,8 @@
-package car.command;
+package car.command.invoker;
 
 import car.CarAgent;
+import car.command.CarCommand;
+import car.command.CommandCar;
 import car.command.concrete.ActionCommand;
 import car.command.concrete.DecideCommand;
 import car.command.concrete.SenseCommand;
@@ -29,5 +31,4 @@ public class InvokerCarCommandImpl implements InvokerCommand {
     public void execute(CommandCar command) {
         this.commands.get(command).execute(this.car);
     }
-
 }

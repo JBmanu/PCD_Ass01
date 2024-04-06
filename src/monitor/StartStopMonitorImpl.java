@@ -15,12 +15,12 @@ public class StartStopMonitorImpl implements StartStopMonitor {
     }
 
     @Override
-    public void waitUntilRunning() {
+    public void waitUntilPlay() {
         try {
             this.mutex.lock();
             while (!this.isRunning) {
                 try {
-                    System.out.println("Waiting for running");
+//                    System.out.println("Waiting for running");
                     this.conditionRunning.await();
                 } catch (InterruptedException ex) {
                     System.out.println("Interrupted while waiting for running");
@@ -47,7 +47,23 @@ public class StartStopMonitorImpl implements StartStopMonitor {
         try {
             this.mutex.lock();
             this.isRunning = false;
-            this.conditionRunning.signal();
+        } finally {
+            this.mutex.unlock();
+        }
+    }
+
+    @Override
+    public void pauseAndWaitUntilPlay() {
+        try {
+            this.mutex.lock();
+            this.isRunning = false;
+            while (!this.isRunning) {
+                try {
+                    this.conditionRunning.await();
+                } catch (InterruptedException ex) {
+                    System.out.println("Interrupted while waiting for running");
+                }
+            }
         } finally {
             this.mutex.unlock();
         }

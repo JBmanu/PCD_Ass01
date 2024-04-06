@@ -1,8 +1,9 @@
 package simulation;
 
 import car.AbstractAgent;
-import car.barrier.CarBarrier3Worker;
-import car.barrier.AgentBarrierLogic;
+import car.CarAgent;
+import car.masterWorker.SingleMasterWorker;
+import car.masterWorker.MasterWorkerAgent;
 import inspector.road.RoadSimStatistics;
 import monitor.StartStopMonitor;
 import monitor.StartStopMonitorImpl;
@@ -41,7 +42,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
     private final List<ViewSimulationListener> viewListeners;
 
     // CarBarrier
-    private final AgentBarrierLogic agentBarrierLogic;
+    private final MasterWorkerAgent masterWorkerAgent;
 
     // Model
     private final RoadSimStatistics roadStatistics;
@@ -60,7 +61,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.agentBarrierLogic = new CarBarrier3Worker(this);
+        this.masterWorkerAgent = new SingleMasterWorker(this.startStopMonitor);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();
@@ -107,7 +108,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
      */
     @Override
     public void run() {
-        this.startStopMonitor.waitUntilRunning();
+        this.startStopMonitor.waitUntilPlay();
         this.timeStatistics.setStartWallTime();
 
         /* initialize the env and the agents inside */
@@ -123,17 +124,13 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         long timePerStep = 0;
 
         while (this.stepper.hasMoreSteps()) {
-            this.startStopMonitor.waitUntilRunning();
+            this.startStopMonitor.waitUntilPlay();
             this.timeStatistics.setCurrentWallTime(System.currentTimeMillis());
 
             /* make a step */
             this.env.step(this.dt);
-            this.agentBarrierLogic.execute(this.dt);
-
-            this.agents.forEach(agent -> agent.step(this.dt));
-            this.agentBarrierLogic.execute(this.dt);
-            this.startStopMonitor.pause();
-            this.startStopMonitor.waitUntilRunning();
+            this.masterWorkerAgent.play(this.dt);
+            this.startStopMonitor.pauseAndWaitUntilPlay();
 
             t += this.dt;
 
@@ -153,16 +150,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         this.notifyEnd();
     }
 
-    public long getSimulationDuration() {
-        return this.timeStatistics.totalWallTime();
-    }
-
-    public double getAverageTimePerCycle() {
-        return this.timeStatistics.averageTimeForStep();
-    }
-
     /* methods for configuring the simulation */
-
     protected void setupTimings(final int t0, final int dt) {
         this.dt = dt;
         this.t0 = t0;
@@ -172,14 +160,13 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         this.toBeInSyncWithWallTime = true;
         this.nStepsPerSec = nCyclesPerSec;
     }
-
     protected void setupEnvironment(final AbstractEnvironment env) {
         this.env = env;
     }
 
     protected void addAgent(final AbstractAgent agent) {
         this.agents.add(agent);
-        this.agentBarrierLogic.addInvokerCommand(agent.invokerCommand());
+        this.masterWorkerAgent.addCarAgent((CarAgent) agent);
     }
 
     // listener
@@ -200,6 +187,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         for (final var listener : this.viewListeners) {
             listener.notifyInit(t0, this);
         }
+        this.masterWorkerAgent.setup();
     }
     private void notifyStepDone(final int t) {
         // Model
@@ -220,6 +208,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         for (final var listener : this.viewListeners) {
             listener.notifyEnd(this);
         }
+        this.masterWorkerAgent.terminate();
     }
 
     /* method to sync with wall time at a specified step rate */

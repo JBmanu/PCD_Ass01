@@ -8,8 +8,8 @@ import java.util.Optional;
 public class DecideCommand implements CarCommand {
 
     @Override
-    public void execute(CarAgent car) {
-        car.setSelectedAction(Optional.empty());
-        car.decide();
+    public void execute(CarAgent carAgent) {
+        carAgent.setSelectedAction(Optional.empty());
+        carAgent.decide();
     }
 }

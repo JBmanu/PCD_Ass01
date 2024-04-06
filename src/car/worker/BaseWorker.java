@@ -1,50 +1,51 @@
 package car.worker;
 
-import car.command.InvokerCommand;
 import monitor.StartStopMonitor;
 import monitor.StartStopMonitorImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.LinkedBlockingQueue;
+public abstract class BaseWorker extends Thread implements StartStopMonitor {
+    private boolean isRunning;
+    private final StartStopMonitor startStopMonitor;
 
-public abstract class BaseWorker extends Thread implements CarWorker {
-    private final CyclicBarrier barrier;
-    private final List<InvokerCommand> invokerCarCommandQueue;
-    private final StartStopMonitorImpl startStopMonitor;
-    private StartStopMonitorImpl startStopMonitorInTail;
-
-    protected BaseWorker(final CyclicBarrier barrier) {
-        this.invokerCarCommandQueue = new ArrayList<>();
+    protected BaseWorker() {
         this.startStopMonitor = new StartStopMonitorImpl();
-        this.barrier = barrier;
+        this.isRunning = true;
+        this.start();
     }
 
-    protected CyclicBarrier barrier() {
-        return this.barrier;
-    }
+    protected abstract void execute();
 
-    protected LinkedBlockingQueue<InvokerCommand> invokerCarCommandIterator() {
-        return new LinkedBlockingQueue<>(this.invokerCarCommandQueue);
-    }
-
-    protected void runLastWorker() {
-        this.startStopMonitorInTail.play();
+    @Override
+    public void run() {
+        this.pause();
+        while (this.isRunning) {
+            this.startStopMonitor.waitUntilPlay();
+            this.execute();
+            this.startStopMonitor.pauseAndWaitUntilPlay();
+        }
     }
 
     @Override
-    public StartStopMonitorImpl startStopSimulation() {
-        return this.startStopMonitor;
+    public void play() {
+        this.startStopMonitor.play();
     }
     @Override
-    public void addInvokerCarInvoker(final InvokerCommand invokerCommand) {
-        this.invokerCarCommandQueue.add(invokerCommand);
+    public void pause() {
+        this.startStopMonitor.pause();
     }
     @Override
-    public void setStartStopInTail(final StartStopMonitor startStopMonitor) {
-        this.startStopMonitorInTail = startStopMonitor;
+    public void waitUntilPlay() {
+        this.startStopMonitor.waitUntilPlay();
     }
+    @Override
+    public void pauseAndWaitUntilPlay() {
+        this.startStopMonitor.pauseAndWaitUntilPlay();
+    }
+
+    public void terminate() {
+        this.isRunning = false;
+    }
+
 
 
 }

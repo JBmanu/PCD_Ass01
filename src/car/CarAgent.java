@@ -1,15 +1,14 @@
 package car;
 
-import car.command.InvokerCarCommandImpl;
-import car.command.InvokerCommand;
+import car.command.CarCommand;
+import car.command.CommandCar;
+import car.command.invoker.InvokerCarCommandImpl;
+import car.command.invoker.InvokerCommand;
 import road.Road;
 import road.RoadsEnv;
 import simengineseq.Action;
 
 import java.util.Optional;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Base class modeling the skeleton of an agent modeling a car in the traffic environment
@@ -38,11 +37,6 @@ public abstract class CarAgent extends AbstractAgent {
         this.maxSpeed = vmax;
         env.registerNewCar(this, road, initialPos);
         this.invokerCarCommand = new InvokerCarCommandImpl(this);
-    }
-
-    @Override
-    public InvokerCommand invokerCommand() {
-        return this.invokerCarCommand;
     }
 
     protected int timeDt() {
@@ -74,10 +68,10 @@ public abstract class CarAgent extends AbstractAgent {
      */
     @Override
     public void step(final int dt) {
-        this.timeDt = dt;
-		this.invokerCarCommand.sense();
-		this.invokerCarCommand.decide();
-		this.invokerCarCommand.action();
+        this.invokerCarCommand.setup(dt);
+        this.invokerCarCommand.execute(CommandCar.SENSE);
+        this.invokerCarCommand.execute(CommandCar.DECIDE);
+        this.invokerCarCommand.execute(CommandCar.ACTION);
     }
 
     /**

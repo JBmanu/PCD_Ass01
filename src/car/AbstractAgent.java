@@ -1,6 +1,6 @@
 package car;
 
-import car.command.InvokerCommand;
+import car.command.invoker.InvokerCommand;
 import road.AbstractEnvironment;
 import simengineseq.Action;
 import simengineseq.Percept;
@@ -43,8 +43,6 @@ public abstract class AbstractAgent {
     protected AbstractEnvironment getEnv() {
         return this.env;
     }
-
-    public abstract InvokerCommand invokerCommand();
 
     public Percept getCurrentPercepts() {
         return this.env.getCurrentPercepts(this.myId);

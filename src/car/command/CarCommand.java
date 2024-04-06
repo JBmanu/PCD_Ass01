@@ -4,5 +4,9 @@ import car.CarAgent;
 
 public interface CarCommand {
 
-    void execute(final CarAgent car);
+    void execute(final CarAgent carAgent);
+
 }
+
+
+

@@ -6,7 +6,7 @@ import car.command.CarCommand;
 public class ActionCommand implements CarCommand {
 
     @Override
-    public void execute(CarAgent car) {
-        car.selectedAction().ifPresent(car::doAction);
+    public void execute(CarAgent carAgent) {
+        carAgent.selectedAction().ifPresent(carAgent::doAction);
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 public class CarBarrier3Worker implements AgentBarrierLogic {
     private final List<InvokerCommand> invokerCarCommands;
     private final AbstractSimulation simulation;
+//    private final CarWorker setupWorker;
     private final CarWorker senseWorker;
     private final CarWorker decideWorker;
     private final CarWorker actionWorker;
@@ -24,6 +25,7 @@ public class CarBarrier3Worker implements AgentBarrierLogic {
         this.decideWorker = new DecideWorker(null);
         this.actionWorker = new ActionWorker(null);
 
+//        this.setupWorker.setStartStopInTail(this.senseWorker.startStopSimulation());
         this.senseWorker.setStartStopInTail(this.decideWorker.startStopSimulation());
         this.decideWorker.setStartStopInTail(this.actionWorker.startStopSimulation());
         this.actionWorker.setStartStopInTail(this.simulation.startStopMonitor());
@@ -43,6 +45,7 @@ public class CarBarrier3Worker implements AgentBarrierLogic {
 
     @Override
     public void execute(final int dt) {
+        this.senseWorker.startStopSimulation().play();
 //        this.invokerCarCommands.forEach(invoker -> invoker.setup(dt));
 //        this.invokerCarCommands.forEach(InvokerCommand::sense);
 //        this.invokerCarCommands.forEach(InvokerCommand::decide);

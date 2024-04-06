@@ -62,7 +62,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.masterWorkerAgent = new MasterWorkerSingleWorker(this.startStopMonitor);
+        this.masterWorkerAgent = new MasterWorkerMultiWorker(this.startStopMonitor);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();

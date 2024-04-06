@@ -30,7 +30,7 @@ public class MasterWorkerMultiWorker extends BaseWorker implements MasterWorkerA
         this.starStopMonitorSimulation = starStopMonitorSimulation;
         this.carAgents = new ArrayList<>();
         this.carsWorkers = new ArrayList<>();
-        this.divisor = 5;
+        this.divisor = 30;
         this.cycleBarrier = new CyclicBarrier(this.divisor);
         this.counterWorker = new AtomicInteger(0);
     }

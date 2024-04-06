@@ -30,6 +30,17 @@ public class ListUtilsTest {
         assertEquals(1, dividedList.get(2).size());
     }
 
+    @Test
+    public void divideEquallyListWithElementsEqualToDivisor() {
+        final List<Integer> list = List.of(1, 2, 3);
+        final int divisor = 3;
+        List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
+        assertEquals(3, dividedList.size());
+        assertEquals(1, dividedList.get(0).size());
+        assertEquals(1, dividedList.get(1).size());
+        assertEquals(1, dividedList.get(2).size());
+    }
+
 
 
 

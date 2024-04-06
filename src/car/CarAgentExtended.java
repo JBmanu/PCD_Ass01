@@ -44,7 +44,7 @@ public class CarAgentExtended extends CarAgent {
 	
 	@Override
 	public void decide() {
-		final int dt = this.dt();
+		final int dt = this.timeDt();
 
 		switch (this.state) {
 		case CarAgentState.STOPPED:

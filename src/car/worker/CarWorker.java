@@ -1,8 +1,13 @@
 package car.worker;
 
 import car.command.InvokerCommand;
+import inspector.startStop.StartStopMonitor;
 
-public interface CarWorker extends Runnable {
+public interface CarWorker {
 
-    void addInvokerCarInvoker(InvokerCommand invokerCarCommand);
+    void start();
+    StartStopMonitor startStopSimulation();
+    void setStartStopInTail(StartStopMonitor startStopMonitor);
+    void addInvokerCarInvoker(InvokerCommand invokerCommand);
+
 }

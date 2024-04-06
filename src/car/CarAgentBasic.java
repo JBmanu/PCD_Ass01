@@ -43,7 +43,7 @@ public class CarAgentBasic extends CarAgent {
      * Behaviour defined by a simple finite state machine
      */
     public void decide() {
-        final int dt = this.dt();
+        final int dt = this.timeDt();
         switch (this.state) {
             case CarAgentState.STOPPED:
                 this.stoppedState();

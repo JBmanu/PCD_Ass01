@@ -53,4 +53,7 @@ public abstract class AbstractAgent {
     public void doAction(final Action action) {
         this.env.doAction(this.myId, action);
     }
+
+    public abstract void setTimeDt(final int dt);
+
 }

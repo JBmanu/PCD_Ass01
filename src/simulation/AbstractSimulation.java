@@ -2,7 +2,7 @@ package simulation;
 
 import car.AbstractAgent;
 import car.barrier.CarBarrier3Worker;
-import car.barrier.CarBarrierLogic;
+import car.barrier.AgentBarrierLogic;
 import inspector.road.RoadSimStatistics;
 import inspector.startStop.StartStopMonitor;
 import inspector.startStop.StartStopSimulationRunnable;
@@ -41,7 +41,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
     private final List<ViewSimulationListener> viewListeners;
 
     // CarBarrier
-    private final CarBarrierLogic carBarrierLogic;
+    private final AgentBarrierLogic agentBarrierLogic;
 
     // Model
     private final RoadSimStatistics roadStatistics;
@@ -60,7 +60,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.carBarrierLogic = new CarBarrier3Worker();
+        this.agentBarrierLogic = new CarBarrier3Worker(this);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModeListener();
@@ -86,6 +86,9 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
     public Stepper stepper() {
         return this.stepper;
     }
+    public StartStopMonitor startStopMonitor() {
+        return this.startStopMonitor;
+    }
     public TimeStatistics timeStatistics() {
         return this.timeStatistics;
     }
@@ -96,6 +99,10 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
     public void play(final int nSteps) {
         this.stepper.setTotalStep(nSteps);
+        this.startStopMonitor.play();
+    }
+
+    public void play() {
         this.startStopMonitor.play();
     }
 
@@ -130,9 +137,16 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
             /* make a step */
             this.env.step(this.dt);
-            for (final var agent : this.agents) {
-                agent.step(this.dt);
-            }
+            this.agentBarrierLogic.execute(this.dt);
+//            for (final var agent : this.agents) {
+////                agent.setTimeDt(this.dt);
+//                agent.step(this.dt);
+//            }
+
+//            this.agentBarrierLogic.execute();
+//            this.pause();
+//            this.startStopMonitor.waitUntilRunning();
+
             t += this.dt;
 
             this.notifyStepDone(t);
@@ -177,7 +191,7 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
 
     protected void addAgent(final AbstractAgent agent) {
         this.agents.add(agent);
-        this.carBarrierLogic.addInvokerCommand(agent.invokerCommand());
+        this.agentBarrierLogic.addInvokerCommand(agent.invokerCommand());
     }
 
     // listener

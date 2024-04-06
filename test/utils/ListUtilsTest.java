@@ -14,9 +14,9 @@ public class ListUtilsTest {
         final int divisor = 3;
         List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
         assertEquals(3, dividedList.size());
-        assertEquals(3, dividedList.get(0).size());
-        assertEquals(3, dividedList.get(1).size());
-        assertEquals(3, dividedList.get(2).size());
+        assertEquals(List.of(1, 2, 3), dividedList.get(0));
+        assertEquals(List.of(4, 5, 6), dividedList.get(1));
+        assertEquals(List.of(7, 8, 9), dividedList.get(2));
     }
 
     @Test
@@ -25,9 +25,9 @@ public class ListUtilsTest {
         final int divisor = 5;
         List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
         assertEquals(3, dividedList.size());
-        assertEquals(1, dividedList.get(0).size());
-        assertEquals(1, dividedList.get(1).size());
-        assertEquals(1, dividedList.get(2).size());
+        assertEquals(List.of(1), dividedList.get(0));
+        assertEquals(List.of(2), dividedList.get(1));
+        assertEquals(List.of(3), dividedList.get(2));
     }
 
     @Test
@@ -36,9 +36,9 @@ public class ListUtilsTest {
         final int divisor = 3;
         List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
         assertEquals(3, dividedList.size());
-        assertEquals(1, dividedList.get(0).size());
-        assertEquals(1, dividedList.get(1).size());
-        assertEquals(1, dividedList.get(2).size());
+        assertEquals(List.of(1), dividedList.get(0));
+        assertEquals(List.of(2), dividedList.get(1));
+        assertEquals(List.of(3), dividedList.get(2));
     }
 
     @Test
@@ -47,15 +47,22 @@ public class ListUtilsTest {
         final int divisor = 4;
         List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
         assertEquals(4, dividedList.size());
-        assertEquals(3, dividedList.get(0).size());
-        assertEquals(2, dividedList.get(1).size());
-        assertEquals(2, dividedList.get(2).size());
-        assertEquals(2, dividedList.get(3).size());
+        assertEquals(List.of(1, 2, 3), dividedList.get(0));
+        assertEquals(List.of(4, 5), dividedList.get(1));
+        assertEquals(List.of(6, 7), dividedList.get(2));
+        assertEquals(List.of(8, 9), dividedList.get(3));
     }
 
-
-
-
-
+    @Test
+    public void divideEquallyListWithElementsNotDivisibleByDivisorHard() {
+        final List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7);
+        final int divisor = 4;
+        List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
+        assertEquals(4, dividedList.size());
+        assertEquals(List.of(1, 2), dividedList.get(0));
+        assertEquals(List.of(3, 4), dividedList.get(1));
+        assertEquals(List.of(5, 6), dividedList.get(2));
+        assertEquals(List.of(7), dividedList.get(3));
+    }
 
 }

@@ -138,6 +138,9 @@ public abstract class AbstractSimulation extends Thread implements StartStopSimu
             /* make a step */
             this.env.step(this.dt);
             this.agentBarrierLogic.execute(this.dt);
+            this.pause();
+            this.startStopMonitor.waitUntilRunning();
+
 //            for (final var agent : this.agents) {
 ////                agent.setTimeDt(this.dt);
 //                agent.step(this.dt);

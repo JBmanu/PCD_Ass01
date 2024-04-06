@@ -41,6 +41,18 @@ public class ListUtilsTest {
         assertEquals(1, dividedList.get(2).size());
     }
 
+    @Test
+    public void divideEquallyListWithElementsNotDivisibleByDivisor() {
+        final List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        final int divisor = 4;
+        List<List<Integer>> dividedList = ListUtils.divideEqually(list, divisor);
+        assertEquals(4, dividedList.size());
+        assertEquals(3, dividedList.get(0).size());
+        assertEquals(2, dividedList.get(1).size());
+        assertEquals(2, dividedList.get(2).size());
+        assertEquals(2, dividedList.get(3).size());
+    }
+
 
 
 

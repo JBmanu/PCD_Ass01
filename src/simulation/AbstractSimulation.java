@@ -4,6 +4,7 @@ import car.AbstractAgent;
 import car.barrier.CarBarrier3Worker;
 import car.barrier.AgentBarrierLogic;
 import inspector.road.RoadSimStatistics;
+import monitor.StartStopMonitor;
 import monitor.StartStopMonitorImpl;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
@@ -44,7 +45,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
 
     // Model
     private final RoadSimStatistics roadStatistics;
-    private final StartStopMonitorImpl startStopMonitor;
+    private final StartStopMonitor startStopMonitor;
     private final TimeStatistics timeStatistics;
     private final Stepper stepper;
 
@@ -88,7 +89,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         return this.stepper;
     }
     @Override
-    public StartStopMonitorImpl startStopMonitor() {
+    public StartStopMonitor startStopMonitor() {
         return this.startStopMonitor;
     }
     @Override

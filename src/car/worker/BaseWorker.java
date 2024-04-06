@@ -1,6 +1,7 @@
 package car.worker;
 
 import car.command.InvokerCommand;
+import monitor.StartStopMonitor;
 import monitor.StartStopMonitorImpl;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public abstract class BaseWorker extends Thread implements CarWorker {
         this.invokerCarCommandQueue.add(invokerCommand);
     }
     @Override
-    public void setStartStopInTail(final StartStopMonitorImpl startStopMonitor) {
+    public void setStartStopInTail(final StartStopMonitor startStopMonitor) {
         this.startStopMonitorInTail = startStopMonitor;
     }
 

@@ -14,6 +14,7 @@ public class StartStopMonitorImpl implements StartStopMonitor {
         this.conditionRunning = this.mutex.newCondition();
     }
 
+    @Override
     public void waitUntilRunning() {
         try {
             this.mutex.lock();

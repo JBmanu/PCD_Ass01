@@ -1,5 +1,8 @@
 package car.command;
 
+import car.CarAgent;
+
 public interface CarCommand {
-    void execute();
+
+    void execute(final CarAgent car);
 }

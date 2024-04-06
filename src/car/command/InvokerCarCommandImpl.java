@@ -1,18 +1,23 @@
 package car.command;
 
 import car.CarAgent;
+import car.command.concrete.ActionCommand;
+import car.command.concrete.DecideCommand;
+import car.command.concrete.SenseCommand;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InvokerCarCommandImpl implements InvokerCommand {
     private final CarAgent car;
-    private final CarCommand senseCommand;
-    private final CarCommand decideCommand;
-    private final CarCommand actionCommand;
+    private final Map<CommandCar, CarCommand> commands;
 
     public InvokerCarCommandImpl(final CarAgent car) {
         this.car = car;
-        this.senseCommand = new SenseCommand(car);
-        this.decideCommand = new DecideCommand(car);
-        this.actionCommand = new ActionCommand(car);
+        this.commands = new HashMap<>();
+        this.commands.put(CommandCar.SENSE, new SenseCommand());
+        this.commands.put(CommandCar.DECIDE, new DecideCommand());
+        this.commands.put(CommandCar.ACTION, new ActionCommand());
     }
 
     @Override
@@ -21,16 +26,8 @@ public class InvokerCarCommandImpl implements InvokerCommand {
     }
 
     @Override
-    public void sense() {
-        this.senseCommand.execute();
-    }
-    @Override
-    public void decide() {
-        this.decideCommand.execute();
-    }
-    @Override
-    public void action() {
-        this.actionCommand.execute();
+    public void execute(CommandCar command) {
+        this.commands.get(command).execute(this.car);
     }
 
 }

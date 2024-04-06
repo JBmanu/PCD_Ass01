@@ -5,16 +5,17 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ListUtils {
-    public static <T> List<List<T>> divideEqually(final List<T> lista, final int divisore) {
-        int numSottoListe = Math.min(divisore, lista.size());
-        int dimensioneSottoLista = lista.size() / numSottoListe;
-        int elementiExtra = lista.size() % numSottoListe;
 
-        return IntStream.range(0, numSottoListe).parallel()
+    public static <T> List<List<T>> divideEqually(final List<T> list, final int divisor) {
+        int numSubList = Math.min(divisor, list.size());
+        int dimensionSubList = list.size() / numSubList;
+        int extraElements = list.size() % numSubList;
+
+        return IntStream.range(0, numSubList).parallel()
                 .mapToObj(i -> {
-                    int startIndex = i * dimensioneSottoLista + Math.min(i, elementiExtra);
-                    int endIndex = startIndex + dimensioneSottoLista + (i < elementiExtra ? 1 : 0);
-                    return lista.subList(startIndex, endIndex);
+                    int startIndex = i * dimensionSubList + Math.min(i, extraElements);
+                    int endIndex = startIndex + dimensionSubList + (i < extraElements ? 1 : 0);
+                    return list.subList(startIndex, endIndex);
                 })
                 .collect(Collectors.toList());
     }

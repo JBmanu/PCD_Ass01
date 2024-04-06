@@ -2,6 +2,7 @@ package simulation;
 
 import car.AbstractAgent;
 import car.CarAgent;
+import car.masterWorker.MasterWorkerMultiWorker;
 import car.masterWorker.MasterWorkerSingleWorker;
 import car.masterWorker.MasterWorkerAgent;
 import inspector.road.RoadSimStatistics;

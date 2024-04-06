@@ -27,7 +27,7 @@ public class MasterWorkerSingleWorker extends BaseWorker implements MasterWorker
 
     @Override
     protected void execute() {
-        this.carAgents.forEach(carAgent -> carAgent.setTimeDt(this.timeDt));
+        this.carAgents.stream().parallel().forEach(carAgent -> carAgent.setTimeDt(this.timeDt));
         this.runCommand(new SenseCommand());
         this.runCommand(new DecideCommand());
         this.runCommand(new ActionCommand());

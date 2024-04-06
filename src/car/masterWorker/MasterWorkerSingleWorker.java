@@ -39,7 +39,6 @@ public class MasterWorkerSingleWorker extends BaseWorker implements MasterWorker
         this.pauseAndWaitUntilPlay();
     }
 
-
     @Override
     public void setup() {
         this.carsWorker = new WorkerCar(this.carAgents);

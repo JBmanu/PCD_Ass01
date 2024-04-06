@@ -2,7 +2,7 @@ package simulation;
 
 import car.AbstractAgent;
 import car.CarAgent;
-import car.masterWorker.SingleMasterWorker;
+import car.masterWorker.MasterWorkerSingleWorker;
 import car.masterWorker.MasterWorkerAgent;
 import inspector.road.RoadSimStatistics;
 import monitor.StartStopMonitor;
@@ -61,7 +61,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.masterWorkerAgent = new SingleMasterWorker(this.startStopMonitor);
+        this.masterWorkerAgent = new MasterWorkerSingleWorker(this.startStopMonitor);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();

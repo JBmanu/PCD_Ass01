@@ -8,18 +8,18 @@ import car.command.concrete.SenseCommand;
 import car.worker.BaseWorker;
 import monitor.StartStopMonitor;
 import car.worker.Worker;
-import car.worker.WorkerImpl;
+import car.worker.WorkerCar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleMasterWorker extends BaseWorker implements MasterWorkerAgent {
+public class MasterWorkerSingleWorker extends BaseWorker implements MasterWorkerAgent {
     private Worker carsWorker;
     private final List<CarAgent> carAgents;
     private final StartStopMonitor starStopMonitorSimulation;
     private int timeDt;
 
-    public SingleMasterWorker(final StartStopMonitor starStopMonitorSimulation) {
+    public MasterWorkerSingleWorker(final StartStopMonitor starStopMonitorSimulation) {
         super();
         this.starStopMonitorSimulation = starStopMonitorSimulation;
         this.carAgents = new ArrayList<>();
@@ -42,7 +42,7 @@ public class SingleMasterWorker extends BaseWorker implements MasterWorkerAgent 
 
     @Override
     public void setup() {
-        this.carsWorker = new WorkerImpl(this.carAgents);
+        this.carsWorker = new WorkerCar(this.carAgents);
         this.carsWorker.addStartStopMonitorInTail(this);
     }
 

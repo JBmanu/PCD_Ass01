@@ -7,13 +7,13 @@ import monitor.StartStopMonitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkerImpl extends BaseWorker implements Worker {
+public class WorkerCar extends BaseWorker implements Worker {
     private final List<CarAgent> agents;
     private CarCommand command;
 
     private final List<StartStopMonitor> startStopMonitorInTailList;
 
-    public WorkerImpl(final List<CarAgent> agents) {
+    public WorkerCar(final List<CarAgent> agents) {
         super();
         this.agents = agents;
         this.startStopMonitorInTailList = new ArrayList<>();

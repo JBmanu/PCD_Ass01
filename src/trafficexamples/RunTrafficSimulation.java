@@ -1,6 +1,5 @@
 package trafficexamples;
 
-import inspector.road.RoadSimStatistics;
 import simulation.RoadSimView;
 
 /**

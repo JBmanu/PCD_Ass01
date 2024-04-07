@@ -16,6 +16,7 @@ public class StartStopView extends JPanel {
     private final JButton pauseButton;
     private final FlowLayout layoutManager;
     private List<StartStopViewListener> listeners;
+    private boolean isSetup;
 
     public StartStopView() {
         this.startButton = new JButton(START);
@@ -29,6 +30,8 @@ public class StartStopView extends JPanel {
         this.add(this.startButton);
         this.add(this.pauseButton);
         this.activateStartButton();
+
+        this.isSetup = false;
     }
 
     private void activateStartButton() {
@@ -70,9 +73,12 @@ public class StartStopView extends JPanel {
 
     public void setupSimulation(final InspectorSimulation simulation) {
         this.startButton.addActionListener(e -> {
-            if (this.listeners.stream().map(listener -> listener.conditionToStart(simulation)).toList().contains(false)) return;
-            this.listeners.forEach(listener -> listener.onStart(simulation));
-            simulation.setup();
+            if (!this.isSetup) {
+                this.isSetup = true;
+                if (this.listeners.stream().map(listener -> listener.conditionToStart(simulation)).toList().contains(false)) return;
+                this.listeners.forEach(listener -> listener.onStart(simulation));
+                simulation.setup();
+            }
             simulation.startStopMonitor().play();
             System.out.println("PLAY");
             this.switchStop();

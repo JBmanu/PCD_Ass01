@@ -1,5 +1,6 @@
 package inspector;
 
+import simulation.InspectorSimulation;
 import utils.ViewUtils;
 
 import javax.swing.*;
@@ -43,6 +44,24 @@ public class SimulationView extends JPanel {
         this.comboBox.addActionListener(this.comboBoxActionListener);
     }
 
+    public void setup() {
+
+    }
+
+    private SimulationType simulationType() {
+        String selectedOption = (String) this.comboBox.getSelectedItem();
+        if (Objects.equals(selectedOption, SimulationType.SINGLE_ROAD.getName())) {
+            return SimulationType.SINGLE_ROAD;
+        } else if (Objects.equals(selectedOption, SimulationType.SINGLE_ROAD_TRAFFIC_LIGHT.getName())) {
+            return SimulationType.SINGLE_ROAD_TRAFFIC_LIGHT;
+        } else if (Objects.equals(selectedOption, SimulationType.CROSSROAD_TRAFFIC_LIGHT.getName())) {
+            return SimulationType.CROSSROAD_TRAFFIC_LIGHT;
+        } else {
+            throw new IllegalStateException("Simulation type not found");
+        }
+    }
+
+
     private final ActionListener comboBoxActionListener = e -> {
         JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
         String selectedOption = (String) comboBox.getSelectedItem();
@@ -52,5 +71,7 @@ public class SimulationView extends JPanel {
 
         }
     };
+
+
 
 }

@@ -30,7 +30,7 @@ public class MasterWorkerMultiWorker implements MasterWorkerAgent {
         this.carAgents = new ArrayList<>();
         this.carsWorkers = new ArrayList<>();
         this.cycleBarrier = new MyCyclicBarrierImpl(this.starStopMonitorSimulation);
-        this.divisor = 9;
+        this.divisor = 5;
     }
 
     @Override

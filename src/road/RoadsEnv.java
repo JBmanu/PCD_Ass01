@@ -6,8 +6,8 @@ import car.CarPercept;
 import road.core.P2d;
 import road.trafficLight.TrafficLight;
 import road.trafficLight.TrafficLightInfo;
-import simengineseq.Action;
-import simengineseq.Percept;
+import simulation.engineseq.Action;
+import simulation.engineseq.Percept;
 
 import java.util.ArrayList;
 import java.util.HashMap;

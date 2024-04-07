@@ -1,9 +1,8 @@
 package car;
 
-import car.command.invoker.InvokerCommand;
 import road.AbstractEnvironment;
-import simengineseq.Action;
-import simengineseq.Percept;
+import simulation.engineseq.Action;
+import simulation.engineseq.Percept;
 
 /**
  * Base  class for defining types of agents taking part to the simulation

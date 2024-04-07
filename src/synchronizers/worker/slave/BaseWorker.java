@@ -23,6 +23,7 @@ public abstract class BaseWorker extends Thread implements StartStopMonitor {
             this.execute();
             this.startStopMonitor.pause();
         }
+        System.out.println("Worker terminated");
     }
 
     @Override
@@ -43,6 +44,7 @@ public abstract class BaseWorker extends Thread implements StartStopMonitor {
     }
 
     public void terminate() {
+        this.play();
         this.isRunning = false;
     }
 

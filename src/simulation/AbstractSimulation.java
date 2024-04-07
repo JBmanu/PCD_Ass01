@@ -130,7 +130,6 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
             /* make a step */
             this.env.step(this.dt);
             this.masterWorkerAgent.execute(this.dt);
-//            this.startStopMonitor.pauseAndWaitUntilPlay();
             //
 
             t += this.dt;
@@ -148,6 +147,8 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         this.timeStatistics.setEndWallTime(System.currentTimeMillis());
         this.timeStatistics.setAverageTimeForStep((double) timePerStep / this.stepper.totalStep());
 
+        System.out.println("COMPLETED IN: " + this.timeStatistics().totalWallTime() + " ms");
+        System.out.println("AVERAGE TIME PER STEP: " + this.timeStatistics().averageTimeForStep() + " ms");
         this.notifyEnd();
     }
 

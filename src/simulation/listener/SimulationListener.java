@@ -1,6 +1,6 @@
 package simulation.listener;
 
-import simulation.CommandsSimulation;
+import simulation.InspectorSimulation;
 
 public interface SimulationListener {
 
@@ -9,13 +9,13 @@ public interface SimulationListener {
 	 * 
 	 * @param t
 	 */
-	void notifyInit(int t, final CommandsSimulation simulation);
+	void notifyInit(int t, final InspectorSimulation simulation);
 	
 	/**
 	 * Called at each step, updater all updates
 	 * @param t
 	 */
-	void notifyStepDone(final int t, final CommandsSimulation simulation);
+	void notifyStepDone(final int t, final InspectorSimulation simulation);
 
-	void notifyEnd(final CommandsSimulation simulation);
+	void notifyEnd(final InspectorSimulation simulation);
 }

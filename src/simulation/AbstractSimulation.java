@@ -2,11 +2,11 @@ package simulation;
 
 import car.AbstractAgent;
 import car.CarAgent;
-import worker.master.MasterWorkerMultiWorker;
-import worker.master.MasterWorkerAgent;
+import synchronizers.worker.master.MasterWorkerMultiWorker;
+import synchronizers.worker.master.MasterWorkerAgent;
 import inspector.road.RoadSimStatistics;
-import monitor.startStop.StartStopMonitor;
-import monitor.startStop.StartStopMonitorImpl;
+import synchronizers.monitor.startStop.StartStopMonitor;
+import synchronizers.monitor.startStop.StartStopMonitorImpl;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Base class for defining concrete simulations
  */
-public abstract class AbstractSimulation extends Thread implements CommandsSimulation {
+public abstract class AbstractSimulation extends Thread implements InspectorSimulation {
 
     /* environment of the simulation */
     private AbstractEnvironment env;

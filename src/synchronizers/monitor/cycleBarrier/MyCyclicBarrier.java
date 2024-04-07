@@ -1,4 +1,4 @@
-package monitor.cycleBarrier;
+package synchronizers.monitor.cycleBarrier;
 
 public interface MyCyclicBarrier {
 

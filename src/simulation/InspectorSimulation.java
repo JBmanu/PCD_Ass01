@@ -4,12 +4,12 @@ import car.AbstractAgent;
 import inspector.road.RoadSimStatistics;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
-import monitor.startStop.StartStopMonitor;
+import synchronizers.monitor.startStop.StartStopMonitor;
 import road.AbstractEnvironment;
 
 import java.util.List;
 
-public interface CommandsSimulation {
+public interface InspectorSimulation {
 
     public Stepper stepper();
 

@@ -3,7 +3,7 @@ package inspector;
 import inspector.road.RoadStatisticView;
 import inspector.stepper.StepperView;
 import inspector.timeStatistics.TimeStatisticsView;
-import simulation.CommandsSimulation;
+import simulation.InspectorSimulation;
 import utils.ViewUtils;
 
 import javax.swing.*;
@@ -46,21 +46,17 @@ public class InspectorPanelView extends JPanel {
         this.add(westPanel, BorderLayout.WEST);
     }
 
-    public void setupSimulation(final CommandsSimulation simulation) {
+    public void setupSimulation(final InspectorSimulation simulation) {
         this.startStopView.setupSimulation(simulation, this.stepperView);
     }
 
-    public void updateInspector(final CommandsSimulation simulation) {
-        SwingUtilities.invokeLater(() -> {
-            this.stepperView.updateStepper(simulation.stepper());
-            this.timeStatisticsView.updateStatistics(simulation.timeStatistics());
-            this.roadStatisticView.updateStatistics(simulation.roadStatistics());
-        });
+    public void updateInspector(final InspectorSimulation simulation) {
+        this.stepperView.updateStepper(simulation.stepper());
+        this.timeStatisticsView.updateStatistics(simulation.timeStatistics());
+        this.roadStatisticView.updateStatistics(simulation.roadStatistics());
     }
 
-    public void endUpdateInspector(final CommandsSimulation simulation) {
-        SwingUtilities.invokeLater(() -> {
-            this.timeStatisticsView.endUpdateStatistics(simulation.timeStatistics());
-        });
+    public void endUpdateInspector(final InspectorSimulation simulation) {
+        this.timeStatisticsView.endUpdateStatistics(simulation.timeStatistics());
     }
 }

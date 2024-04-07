@@ -1,4 +1,4 @@
-package worker.master;
+package synchronizers.worker.master;
 
 import car.CarAgent;
 

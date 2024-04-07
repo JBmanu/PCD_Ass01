@@ -1,8 +1,8 @@
-package worker.slave;
+package synchronizers.worker.slave;
 
 import car.CarAgent;
 import car.command.CarCommand;
-import monitor.startStop.StartStopMonitor;
+import synchronizers.monitor.startStop.StartStopMonitor;
 
 import java.util.ArrayList;
 import java.util.List;

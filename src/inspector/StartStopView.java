@@ -1,7 +1,7 @@
 package inspector;
 
 import inspector.stepper.StepperView;
-import simulation.CommandsSimulation;
+import simulation.InspectorSimulation;
 import utils.ViewUtils;
 
 import javax.swing.*;
@@ -60,7 +60,7 @@ public class StartStopView extends JPanel {
         this.activateStartButton();
     }
 
-    public void setupSimulation(final CommandsSimulation simulation, final StepperView stepperView) {
+    public void setupSimulation(final InspectorSimulation simulation, final StepperView stepperView) {
         this.startButton.addActionListener(e -> {
             final int steps = stepperView.getStep();
             if (steps < 1) return;

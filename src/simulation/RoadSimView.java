@@ -41,25 +41,29 @@ public class RoadSimView extends JFrame implements ViewSimulationListener {
         this.glassPane.setVisible(true);
     }
 
-    public void setupCommandsSimulation(final CommandsSimulation simulation) {
+    public void setupCommandsSimulation(final InspectorSimulation simulation) {
         this.inspectorPanelView.setupSimulation(simulation);
     }
 
     @Override
-    public void notifyInit(final int t, final CommandsSimulation simulation) {
+    public void notifyInit(final int t, final InspectorSimulation simulation) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void notifyStepDone(final int t, final CommandsSimulation simulation) {
-        final var e = ((RoadsEnv) simulation.environment());
-        this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
-        this.inspectorPanelView.updateInspector(simulation);
+    public void notifyStepDone(final int t, final InspectorSimulation simulation) {
+        SwingUtilities.invokeLater(() -> {
+            final var e = ((RoadsEnv) simulation.environment());
+            this.roadPanelView.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
+            this.inspectorPanelView.updateInspector(simulation);
+        });
     }
 
     @Override
-    public void notifyEnd(final CommandsSimulation simulation) {
-        this.inspectorPanelView.endUpdateInspector(simulation);
+    public void notifyEnd(final InspectorSimulation simulation) {
+        SwingUtilities.invokeLater(() -> {
+            this.inspectorPanelView.endUpdateInspector(simulation);
+        });
     }
 
 

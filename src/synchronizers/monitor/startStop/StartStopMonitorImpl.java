@@ -1,4 +1,4 @@
-package monitor.startStop;
+package synchronizers.monitor.startStop;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

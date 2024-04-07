@@ -1,7 +1,7 @@
-package worker.slave;
+package synchronizers.worker.slave;
 
-import monitor.startStop.StartStopMonitor;
-import monitor.startStop.StartStopMonitorImpl;
+import synchronizers.monitor.startStop.StartStopMonitor;
+import synchronizers.monitor.startStop.StartStopMonitorImpl;
 
 public abstract class BaseWorker extends Thread implements StartStopMonitor {
     private boolean isRunning;

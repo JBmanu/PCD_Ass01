@@ -1,15 +1,15 @@
-package worker.master;
+package synchronizers.worker.master;
 
 import car.CarAgent;
 import car.command.CarCommand;
 import car.command.concrete.ActionCommand;
 import car.command.concrete.DecideCommand;
 import car.command.concrete.SenseCommand;
-import monitor.cycleBarrier.MyCyclicBarrier;
-import monitor.cycleBarrier.MyCyclicBarrierImpl;
-import worker.slave.Worker;
-import worker.slave.WorkerCarBarrier;
-import monitor.startStop.StartStopMonitor;
+import synchronizers.worker.slave.Worker;
+import synchronizers.worker.slave.WorkerCarBarrier;
+import synchronizers.monitor.cycleBarrier.MyCyclicBarrier;
+import synchronizers.monitor.cycleBarrier.MyCyclicBarrierImpl;
+import synchronizers.monitor.startStop.StartStopMonitor;
 import utils.ListUtils;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class MasterWorkerMultiWorker implements MasterWorkerAgent {
         this.carAgents = new ArrayList<>();
         this.carsWorkers = new ArrayList<>();
         this.cycleBarrier = new MyCyclicBarrierImpl(this.starStopMonitorSimulation);
-        this.divisor = 30;
+        this.divisor = 9;
     }
 
     @Override

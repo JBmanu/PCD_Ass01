@@ -1,14 +1,14 @@
-package worker.master;
+package synchronizers.worker.master;
 
 import car.CarAgent;
 import car.command.CarCommand;
 import car.command.concrete.ActionCommand;
 import car.command.concrete.DecideCommand;
 import car.command.concrete.SenseCommand;
-import worker.slave.BaseWorker;
-import monitor.startStop.StartStopMonitor;
-import worker.slave.Worker;
-import worker.slave.WorkerCar;
+import synchronizers.worker.slave.Worker;
+import synchronizers.worker.slave.BaseWorker;
+import synchronizers.monitor.startStop.StartStopMonitor;
+import synchronizers.worker.slave.WorkerCar;
 
 import java.util.ArrayList;
 import java.util.List;

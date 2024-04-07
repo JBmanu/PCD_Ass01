@@ -1,8 +1,8 @@
-package monitor.cycleBarrier;
+package synchronizers.monitor.cycleBarrier;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import monitor.startStop.StartStopMonitor;
+import synchronizers.monitor.startStop.StartStopMonitor;
 
 public class MyCyclicBarrierImpl implements MyCyclicBarrier {
     final StartStopMonitor startStopMonitor;

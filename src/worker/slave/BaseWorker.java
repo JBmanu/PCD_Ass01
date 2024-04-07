@@ -1,7 +1,7 @@
-package car.worker;
+package worker.slave;
 
-import monitor.StartStopMonitor;
-import monitor.StartStopMonitorImpl;
+import monitor.startStop.StartStopMonitor;
+import monitor.startStop.StartStopMonitorImpl;
 
 public abstract class BaseWorker extends Thread implements StartStopMonitor {
     private boolean isRunning;
@@ -21,7 +21,7 @@ public abstract class BaseWorker extends Thread implements StartStopMonitor {
         while (this.isRunning) {
             this.startStopMonitor.waitUntilPlay();
             this.execute();
-            this.startStopMonitor.pauseAndWaitUntilPlay();
+            this.startStopMonitor.pause();
         }
     }
 

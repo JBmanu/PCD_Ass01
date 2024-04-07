@@ -2,12 +2,11 @@ package simulation;
 
 import car.AbstractAgent;
 import car.CarAgent;
-import car.masterWorker.MasterWorkerMultiWorker;
-import car.masterWorker.MasterWorkerSingleWorker;
-import car.masterWorker.MasterWorkerAgent;
+import worker.master.MasterWorkerMultiWorker;
+import worker.master.MasterWorkerAgent;
 import inspector.road.RoadSimStatistics;
-import monitor.StartStopMonitor;
-import monitor.StartStopMonitorImpl;
+import monitor.startStop.StartStopMonitor;
+import monitor.startStop.StartStopMonitorImpl;
 import inspector.stepper.Stepper;
 import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
@@ -130,8 +129,9 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
 
             /* make a step */
             this.env.step(this.dt);
-            this.masterWorkerAgent.play(this.dt);
-            this.startStopMonitor.pauseAndWaitUntilPlay();
+            this.masterWorkerAgent.execute(this.dt);
+//            this.startStopMonitor.pauseAndWaitUntilPlay();
+            //
 
             t += this.dt;
 
@@ -209,7 +209,7 @@ public abstract class AbstractSimulation extends Thread implements CommandsSimul
         for (final var listener : this.viewListeners) {
             listener.notifyEnd(this);
         }
-        this.masterWorkerAgent.terminate();
+        this.masterWorkerAgent.terminateWorkers();
     }
 
     /* method to sync with wall time at a specified step rate */

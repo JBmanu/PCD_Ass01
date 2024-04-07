@@ -1,7 +1,7 @@
-package car.worker;
+package worker.slave;
 
 import car.command.CarCommand;
-import monitor.StartStopMonitor;
+import monitor.startStop.StartStopMonitor;
 
 public interface Worker {
 

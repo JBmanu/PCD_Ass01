@@ -1,4 +1,4 @@
-package car.masterWorker;
+package worker.master;
 
 import car.CarAgent;
 
@@ -6,11 +6,9 @@ public interface MasterWorkerAgent {
 
     void setup();
 
-    void play(int dt);
+    void execute(int dt);
 
-    void pause();
-
-    void terminate();
+    void terminateWorkers();
 
     void addCarAgent(final CarAgent carAgent);
 }

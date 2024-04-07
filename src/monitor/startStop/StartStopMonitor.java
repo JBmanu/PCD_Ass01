@@ -1,4 +1,4 @@
-package monitor;
+package monitor.startStop;
 
 public interface StartStopMonitor {
     void play();

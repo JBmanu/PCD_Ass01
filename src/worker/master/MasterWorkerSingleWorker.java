@@ -1,14 +1,14 @@
-package car.masterWorker;
+package worker.master;
 
 import car.CarAgent;
 import car.command.CarCommand;
 import car.command.concrete.ActionCommand;
 import car.command.concrete.DecideCommand;
 import car.command.concrete.SenseCommand;
-import car.worker.BaseWorker;
-import monitor.StartStopMonitor;
-import car.worker.Worker;
-import car.worker.WorkerCar;
+import worker.slave.BaseWorker;
+import monitor.startStop.StartStopMonitor;
+import worker.slave.Worker;
+import worker.slave.WorkerCar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,13 @@ public class MasterWorkerSingleWorker extends BaseWorker implements MasterWorker
     }
 
     @Override
-    public void play(int dt) {
+    public void execute(int dt) {
         this.timeDt = dt;
         this.play();
     }
 
     @Override
-    public void terminate() {
+    public void terminateWorkers() {
         this.carsWorker.terminate();
         super.terminate();
     }

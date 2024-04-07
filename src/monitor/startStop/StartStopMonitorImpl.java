@@ -1,4 +1,4 @@
-package monitor;
+package monitor.startStop;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -54,19 +54,21 @@ public class StartStopMonitorImpl implements StartStopMonitor {
 
     @Override
     public void pauseAndWaitUntilPlay() {
-        try {
-            this.mutex.lock();
-            this.isRunning = false;
-            while (!this.isRunning) {
-                try {
-                    this.conditionRunning.await();
-                } catch (InterruptedException ex) {
-                    System.out.println("Interrupted while waiting for running");
-                }
-            }
-        } finally {
-            this.mutex.unlock();
-        }
+        this.pause();
+        this.waitUntilPlay();
+//        try {
+//            this.mutex.lock();
+//            this.isRunning = false;
+//            while (!this.isRunning) {
+//                try {
+//                    this.conditionRunning.await();
+//                } catch (InterruptedException ex) {
+//                    System.out.println("Interrupted while waiting for running");
+//                }
+//            }
+//        } finally {
+//            this.mutex.unlock();
+//        }
     }
 
 }

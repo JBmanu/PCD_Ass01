@@ -2,7 +2,7 @@ package synchronizers.worker.master;
 
 import car.CarAgent;
 
-public interface MasterWorkerAgent {
+public interface MasterWorker {
 
     void setup();
 

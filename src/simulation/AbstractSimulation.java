@@ -2,8 +2,7 @@ package simulation;
 
 import car.AbstractAgent;
 import car.CarAgent;
-import synchronizers.worker.master.MasterWorkerMultiWorker;
-import synchronizers.worker.master.MasterWorkerAgent;
+import synchronizers.worker.master.MasterWorker;
 import inspector.road.RoadSimStatistics;
 import synchronizers.monitor.startStop.StartStopMonitor;
 import synchronizers.monitor.startStop.StartStopMonitorImpl;
@@ -12,6 +11,7 @@ import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
 import simulation.listener.ModelSimulationListener;
 import simulation.listener.ViewSimulationListener;
+import synchronizers.worker.master.MultiWorkerSpecialized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
     private final List<ViewSimulationListener> viewListeners;
 
     // Master Worker
-    private final MasterWorkerAgent masterWorkerAgent;
+    private final MasterWorker masterWorker;
 
     // Model
     private final RoadSimStatistics roadStatistics;
@@ -61,7 +61,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.masterWorkerAgent = new MasterWorkerMultiWorker(this.startStopMonitor);
+        this.masterWorker = new MultiWorkerSpecialized(this.startStopMonitor);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();
@@ -129,7 +129,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
 
             /* make a step */
             this.env.step(this.dt);
-            this.masterWorkerAgent.execute(this.dt);
+            this.masterWorker.execute(this.dt);
             //
 
             t += this.dt;
@@ -168,7 +168,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
 
     protected void addAgent(final AbstractAgent agent) {
         this.agents.add(agent);
-        this.masterWorkerAgent.addCarAgent((CarAgent) agent);
+        this.masterWorker.addCarAgent((CarAgent) agent);
     }
 
     // listener
@@ -189,7 +189,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         for (final var listener : this.viewListeners) {
             listener.notifyInit(t0, this);
         }
-        this.masterWorkerAgent.setup();
+        this.masterWorker.setup();
     }
     private void notifyStepDone(final int t) {
         // Model
@@ -210,7 +210,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         for (final var listener : this.viewListeners) {
             listener.notifyEnd(this);
         }
-        this.masterWorkerAgent.terminateWorkers();
+        this.masterWorker.terminateWorkers();
     }
 
     /* method to sync with wall time at a specified step rate */

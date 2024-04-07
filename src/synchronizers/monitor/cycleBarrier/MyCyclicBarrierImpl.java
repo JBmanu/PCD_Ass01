@@ -22,11 +22,10 @@ public class MyCyclicBarrierImpl implements MyCyclicBarrier {
 
     @Override
     public void awaitThatBroken() {
-        System.out.print("INCREMENT ");
         if (this.countWorker.incrementAndGet() == this.totalWorker) {
             this.countWorker.set(0);
             System.out.println();
-            System.out.println("RESET BARRIER: play next command");
+            System.out.println("BRAKE BARRIER: play next command");
             this.startStopMonitor.play();
         }
     }

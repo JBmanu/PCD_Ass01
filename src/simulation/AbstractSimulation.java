@@ -41,7 +41,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
     private final List<ModelSimulationListener> modelListeners;
     private final List<ViewSimulationListener> viewListeners;
 
-    // CarBarrier
+    // Master Worker
     private final MasterWorkerAgent masterWorkerAgent;
 
     // Model

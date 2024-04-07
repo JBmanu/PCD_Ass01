@@ -8,4 +8,5 @@ public interface StartStopViewListener {
 
     void onStart(final InspectorSimulation simulation);
 
+    void reset(final InspectorSimulation simulation);
 }

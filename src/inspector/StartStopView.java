@@ -1,6 +1,5 @@
 package inspector;
 
-import inspector.stepper.StepperView;
 import simulation.InspectorSimulation;
 import utils.ViewUtils;
 
@@ -12,8 +11,10 @@ import java.util.List;
 public class StartStopView extends JPanel {
     private static final String START = "Start";
     private static final String PAUSE = "Pause";
+    public static final String RESET = "Reset";
     private final JButton startButton;
     private final JButton pauseButton;
+    private final JButton resetButton;
     private final FlowLayout layoutManager;
     private List<StartStopViewListener> listeners;
     private boolean isSetup;
@@ -21,6 +22,7 @@ public class StartStopView extends JPanel {
     public StartStopView() {
         this.startButton = new JButton(START);
         this.pauseButton = new JButton(PAUSE);
+        this.resetButton = new JButton(RESET);
         this.layoutManager = new FlowLayout(FlowLayout.CENTER);
         this.listeners = new ArrayList<>();
 
@@ -29,9 +31,11 @@ public class StartStopView extends JPanel {
         this.setBackground(ViewUtils.GUI_BACKGROUND_COLOR);
         this.add(this.startButton);
         this.add(this.pauseButton);
+        this.add(this.resetButton);
         this.activateStartButton();
 
         this.isSetup = false;
+        this.resetButton.setVisible(false);
     }
 
     private void activateStartButton() {
@@ -87,5 +91,17 @@ public class StartStopView extends JPanel {
             simulation.startStopMonitor().pause();
             this.switchStart();
         });
+//        this.resetButton.addActionListener(e -> {
+//            this.isSetup = false;
+//            this.listeners.forEach(listener -> listener.reset(simulation));
+//            this.switchStart();
+//            this.resetButton.setVisible(false);
+//        });
+    }
+
+    public void onEndSimulation() {
+//        this.startButton.setEnabled(false);
+//        this.pauseButton.setEnabled(false);
+//        this.resetButton.setVisible(true);
     }
 }

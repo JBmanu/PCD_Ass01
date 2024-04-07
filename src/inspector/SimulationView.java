@@ -1,6 +1,11 @@
 package inspector;
 
+import simulation.AbstractSimulation;
 import simulation.InspectorSimulation;
+import simulation.SimulationSingleton;
+import trafficexamples.TrafficSimulationSingleRoadSeveralCars;
+import trafficexamples.TrafficSimulationSingleRoadWithTrafficLightTwoCars;
+import trafficexamples.TrafficSimulationWithCrossRoads;
 import utils.ViewUtils;
 
 import javax.swing.*;
@@ -24,7 +29,7 @@ enum SimulationType {
     }
 }
 
-public class SimulationView extends JPanel {
+public class SimulationView extends JPanel implements StartStopViewListener {
     private final DefaultComboBoxModel<String> comboBoxModel;
     private final JComboBox<String> comboBox;
 
@@ -42,10 +47,6 @@ public class SimulationView extends JPanel {
         this.setOpaque(false);
 
         this.comboBox.addActionListener(this.comboBoxActionListener);
-    }
-
-    public void setup() {
-
     }
 
     private SimulationType simulationType() {
@@ -67,11 +68,35 @@ public class SimulationView extends JPanel {
         String selectedOption = (String) comboBox.getSelectedItem();
         System.out.println("Opzione selezionata: " + selectedOption);
 
-        if (Objects.equals(selectedOption, SimulationType.SINGLE_ROAD.getName())) {
-
-        }
+        SimulationSingleton.simulation = this.createSimulation();
+        SimulationSingleton.simulation.addViewListener(SimulationSingleton.simulationView);
+        SimulationSingleton.simulationView.setupCommandsSimulation(SimulationSingleton.simulation);
     };
 
+    private AbstractSimulation createSimulation() {
+        return switch (this.simulationType()) {
+            case SINGLE_ROAD -> new TrafficSimulationSingleRoadSeveralCars();
+            case SINGLE_ROAD_TRAFFIC_LIGHT -> new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
+            case CROSSROAD_TRAFFIC_LIGHT -> new TrafficSimulationWithCrossRoads();
+        };
+    }
 
 
+    @Override
+    public boolean conditionToStart(InspectorSimulation simulation) {
+        return true;
+    }
+
+    @Override
+    public void onStart(InspectorSimulation simulation) {
+
+    }
+
+    @Override
+    public void reset(InspectorSimulation simulation) {
+//        SimulationSingleton.simulation = this.createSimulation();
+//        SimulationSingleton.simulation.setup();
+//        SimulationSingleton.simulation.addViewListener(SimulationSingleton.simulationView);
+//        SimulationSingleton.simulationView.setupCommandsSimulation(SimulationSingleton.simulation);
+    }
 }

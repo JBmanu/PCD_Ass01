@@ -57,6 +57,7 @@ public class InspectorPanelView extends JPanel {
 
         this.setOpaque(false);
 
+        this.startStopView.addListener(this.simulationView);
         this.startStopView.addListener(this.stepperView);
         this.startStopView.addListener(this.masterWorkerView);
     }
@@ -73,5 +74,6 @@ public class InspectorPanelView extends JPanel {
 
     public void endUpdateInspector(final InspectorSimulation simulation) {
         this.timeStatisticsView.endUpdateStatistics(simulation.timeStatistics());
+        this.startStopView.onEndSimulation();
     }
 }

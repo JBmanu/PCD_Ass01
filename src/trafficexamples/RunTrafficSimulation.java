@@ -1,6 +1,7 @@
 package trafficexamples;
 
 import simulation.RoadSimView;
+import simulation.SimulationSingleton;
 
 /**
  * 
@@ -12,13 +13,13 @@ public class RunTrafficSimulation {
 	public static void main(final String[] args) {
 
 //		final var simulation = new TrafficSimulationSingleRoadTwoCars();
-		 var simulation = new TrafficSimulationSingleRoadSeveralCars();
+//		 var simulation = new TrafficSimulationSingleRoadSeveralCars();
 //		 var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
 //		 var simulation = new TrafficSimulationWithCrossRoads();
 
-		final RoadSimView view = new RoadSimView();
+		final RoadSimView view = SimulationSingleton.simulationView;
 
-		simulation.addViewListener(view);
-		view.setupCommandsSimulation(simulation);
+		SimulationSingleton.simulation.addViewListener(view);
+		view.setupCommandsSimulation(SimulationSingleton.simulation);
 	}
 }

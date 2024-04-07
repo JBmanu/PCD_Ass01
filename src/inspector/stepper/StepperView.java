@@ -66,4 +66,9 @@ public class StepperView extends JPanel implements StartStopViewListener {
     public void onStart(InspectorSimulation simulation) {
         simulation.stepper().setTotalStep(this.getStep());
     }
+
+    @Override
+    public void reset(InspectorSimulation simulation) {
+
+    }
 }

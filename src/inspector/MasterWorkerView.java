@@ -100,6 +100,11 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
         this.setupSimulation(simulation);
     }
 
+    @Override
+    public void reset(InspectorSimulation simulation) {
+
+    }
+
     private void setupSimulation(final InspectorSimulation simulation) {
         switch (this.workerType()) {
             case GENERIC:

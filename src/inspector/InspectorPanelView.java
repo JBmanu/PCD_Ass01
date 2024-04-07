@@ -1,6 +1,5 @@
 package inspector;
 
-import inspector.masterWorker.MasterWorkerView;
 import inspector.road.RoadStatisticView;
 import inspector.stepper.StepperView;
 import inspector.timeStatistics.TimeStatisticsView;
@@ -17,7 +16,7 @@ public class InspectorPanelView extends JPanel {
     private final TimeStatisticsView timeStatisticsView;
     private final RoadStatisticView roadStatisticView;
     private final MasterWorkerView masterWorkerView;
-
+    private final SimulationView simulationView;
     private final BorderLayout layoutManager;
 
     public InspectorPanelView() {
@@ -26,6 +25,7 @@ public class InspectorPanelView extends JPanel {
         this.timeStatisticsView = new TimeStatisticsView();
         this.roadStatisticView = new RoadStatisticView();
         this.masterWorkerView = new MasterWorkerView();
+        this.simulationView = new SimulationView();
 
         this.layoutManager = new BorderLayout();
         this.setLayout(this.layoutManager);
@@ -42,6 +42,7 @@ public class InspectorPanelView extends JPanel {
         this.add(centerPanel, BorderLayout.NORTH);
         final JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         rightPanel.setOpaque(false);
+        rightPanel.add(this.simulationView);
         rightPanel.add(this.masterWorkerView);
         this.add(rightPanel, BorderLayout.EAST);
 

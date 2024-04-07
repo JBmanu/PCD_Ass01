@@ -1,6 +1,5 @@
-package inspector.masterWorker;
+package inspector;
 
-import inspector.StartStopViewListener;
 import simulation.InspectorSimulation;
 import synchronizers.worker.master.MultiWorkerGeneric;
 import synchronizers.worker.master.MultiWorkerSpecific;

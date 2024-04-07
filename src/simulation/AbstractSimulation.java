@@ -11,7 +11,7 @@ import inspector.timeStatistics.TimeStatistics;
 import road.AbstractEnvironment;
 import simulation.listener.ModelSimulationListener;
 import simulation.listener.ViewSimulationListener;
-import synchronizers.worker.master.MultiWorkerSpecialized;
+import synchronizers.worker.master.MultiWorkerSpecific;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.masterWorker = new MultiWorkerSpecialized(this.startStopMonitor);
+        this.masterWorker = new MultiWorkerSpecific(this.startStopMonitor);
 
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();

@@ -15,7 +15,7 @@ import utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiWorkerSpecialized extends BaseMasterWorker implements MasterWorker {
+public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorker {
     private final List<List<Worker>> carsWorkersList;
     private final List<CarCommand> commands;
     private final MyCyclicBarrier senseCycleBarrier;
@@ -25,7 +25,7 @@ public class MultiWorkerSpecialized extends BaseMasterWorker implements MasterWo
     private int decideDivisor;
     private int actionDivisor;
 
-    public MultiWorkerSpecialized(StartStopMonitor starStopMonitorSimulation) {
+    public MultiWorkerSpecific(StartStopMonitor starStopMonitorSimulation) {
         super(starStopMonitorSimulation);
         this.carsWorkersList = new ArrayList<>();
         this.commands = List.of(new SenseCommand(), new DecideCommand(), new ActionCommand());

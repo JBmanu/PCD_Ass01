@@ -15,7 +15,6 @@ public class RunTrafficSimulation {
 		 var simulation = new TrafficSimulationSingleRoadSeveralCars();
 //		 var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
 //		 var simulation = new TrafficSimulationWithCrossRoads();
-		simulation.setup();
 
 		final RoadSimView view = new RoadSimView();
 

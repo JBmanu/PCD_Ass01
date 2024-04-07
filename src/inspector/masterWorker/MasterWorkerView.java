@@ -1,13 +1,32 @@
 package inspector.masterWorker;
 
+import inspector.StartStopViewListener;
+import simulation.InspectorSimulation;
+import synchronizers.worker.master.MultiWorkerGeneric;
+import synchronizers.worker.master.MultiWorkerSpecific;
 import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
-public class MasterWorkerView extends JPanel {
+enum WorkerType {
+    GENERIC("Generic Worker"),
+    SPECIFIC("Specific Worker");
+
+    private final String name;
+
+    WorkerType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+
+public class MasterWorkerView extends JPanel implements StartStopViewListener {
     private final DefaultComboBoxModel<String> comboBoxModel;
     private final JComboBox<String> comboBox;
 
@@ -24,14 +43,17 @@ public class MasterWorkerView extends JPanel {
     private final JLabel actionLabel;
     private final JTextField actionTextField;
 
+    // Label Error
+
+
     public MasterWorkerView() {
         this.comboBoxModel = new DefaultComboBoxModel<>();
-        this.comboBoxModel.addElement("Generic Worker");
-        this.comboBoxModel.addElement("Specific Worker");
+        this.comboBoxModel.addElement(WorkerType.GENERIC.getName());
+        this.comboBoxModel.addElement(WorkerType.SPECIFIC.getName());
         this.comboBox = new JComboBox<>(this.comboBoxModel);
 
         // Generic
-        this.genericLabel = new JLabel("Generic Worker");
+        this.genericLabel = new JLabel(WorkerType.GENERIC.getName());
         this.genericTextField = new JTextField("2", 3);
         // Specific
         this.senseLabel = new JLabel("Sense");
@@ -68,20 +90,92 @@ public class MasterWorkerView extends JPanel {
         this.comboBox.addActionListener(this.comboBoxActionListener);
     }
 
-    private ActionListener comboBoxActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
-            String selectedOption = (String) comboBox.getSelectedItem();
-            System.out.println("Opzione selezionata: " + selectedOption);
-            if (selectedOption.equals("Generic Worker")) {
-                genericPanel.setVisible(true);
-                specificPanel.setVisible(false);
-            } else {
-                genericPanel.setVisible(false);
-                specificPanel.setVisible(true);
-            }
+    @Override
+    public boolean conditionToStart(InspectorSimulation simulation) {
+        return this.checkValue();
+    }
+
+    @Override
+    public void onStart(InspectorSimulation simulation) {
+        if (!this.checkValue()) return;
+        this.setupSimulation(simulation);
+    }
+
+    private void setupSimulation(final InspectorSimulation simulation) {
+        switch (this.workerType()) {
+            case GENERIC:
+                    simulation.setMasterWorker(
+                            new MultiWorkerGeneric(simulation.startStopMonitor(),
+                                    this.getGenericWorker()));
+                break;
+            case SPECIFIC:
+                    simulation.setMasterWorker(
+                            new MultiWorkerSpecific(simulation.startStopMonitor(),
+                                    this.getSense(),
+                                    this.getDecide(),
+                                    this.getAction()));
+                break;
+        }
+    }
+
+    private boolean checkValue() {
+        return this.getGenericWorker() > 0 && this.getSense() > 0 && this.getDecide() > 0 && this.getAction() > 0;
+    }
+
+    private final ActionListener comboBoxActionListener = e -> {
+        JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
+        String selectedOption = (String) comboBox.getSelectedItem();
+        System.out.println("Opzione selezionata: " + selectedOption);
+
+        if (Objects.equals(selectedOption, WorkerType.GENERIC.getName())) {
+            MasterWorkerView.this.genericPanel.setVisible(true);
+            MasterWorkerView.this.specificPanel.setVisible(false);
+        } else {
+            MasterWorkerView.this.genericPanel.setVisible(false);
+            MasterWorkerView.this.specificPanel.setVisible(true);
         }
     };
+
+    private int getGenericWorker() {
+        try {
+            return Integer.parseInt(this.genericTextField.getText());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private int getSense() {
+        try {
+            return Integer.parseInt(this.senseTextField.getText());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private int getDecide() {
+        try {
+            return Integer.parseInt(this.decideTextField.getText());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private int getAction() {
+        try {
+            return Integer.parseInt(this.actionTextField.getText());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private WorkerType workerType() {
+        String selectedOption = (String) this.comboBox.getSelectedItem();
+        if (Objects.equals(selectedOption, WorkerType.GENERIC.getName())) {
+            return WorkerType.GENERIC;
+        } else {
+            return WorkerType.SPECIFIC;
+        }
+    }
+
 
 }

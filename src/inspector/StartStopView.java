@@ -6,6 +6,8 @@ import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StartStopView extends JPanel {
     private static final String START = "Start";
@@ -13,11 +15,13 @@ public class StartStopView extends JPanel {
     private final JButton startButton;
     private final JButton pauseButton;
     private final FlowLayout layoutManager;
+    private List<StartStopViewListener> listeners;
 
     public StartStopView() {
         this.startButton = new JButton(START);
         this.pauseButton = new JButton(PAUSE);
         this.layoutManager = new FlowLayout(FlowLayout.CENTER);
+        this.listeners = new ArrayList<>();
 
         this.graphicsSetup();
         this.setLayout(this.layoutManager);
@@ -60,12 +64,17 @@ public class StartStopView extends JPanel {
         this.activateStartButton();
     }
 
-    public void setupSimulation(final InspectorSimulation simulation, final StepperView stepperView) {
+    public void addListener(final StartStopViewListener listener) {
+        this.listeners.add(listener);
+    }
+
+    public void setupSimulation(final InspectorSimulation simulation) {
         this.startButton.addActionListener(e -> {
-            final int steps = stepperView.getStep();
-            if (steps < 1) return;
-            simulation.stepper().setTotalStep(steps);
+            if (this.listeners.stream().map(listener -> listener.conditionToStart(simulation)).toList().contains(false)) return;
+            this.listeners.forEach(listener -> listener.onStart(simulation));
+            simulation.setup();
             simulation.startStopMonitor().play();
+            System.out.println("PLAY");
             this.switchStop();
         });
         this.pauseButton.addActionListener(e -> {

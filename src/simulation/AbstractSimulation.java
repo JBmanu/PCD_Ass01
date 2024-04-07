@@ -42,7 +42,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
     private final List<ViewSimulationListener> viewListeners;
 
     // Master Worker
-    private final MasterWorker masterWorker;
+    private MasterWorker masterWorker;
 
     // Model
     private final RoadSimStatistics roadStatistics;
@@ -61,8 +61,6 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         this.timeStatistics = new TimeStatistics();
         this.stepper = new Stepper();
 
-        this.masterWorker = new MultiWorkerSpecific(this.startStopMonitor);
-
         this.toBeInSyncWithWallTime = false;
         this.setupModelListener();
         this.start();
@@ -71,7 +69,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
     /**
      * Method used to configure the simulation, specifying env and agents
      */
-    protected abstract void setup();
+    public abstract void setup();
 
     private void setupModelListener() {
         this.addModelListener(this.roadStatistics);
@@ -100,6 +98,10 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
     @Override
     public RoadSimStatistics roadStatistics() {
         return this.roadStatistics;
+    }
+    @Override
+    public void setMasterWorker(final MasterWorker masterWorker) {
+        this.masterWorker = masterWorker;
     }
 
     /**

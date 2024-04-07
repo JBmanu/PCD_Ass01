@@ -38,8 +38,8 @@ public class InspectorPanelView extends JPanel {
         centerPanel.setOpaque(false);
         centerPanel.add(this.startStopView);
         centerPanel.add(this.stepperView);
-        this.add(centerPanel, BorderLayout.NORTH);
 
+        this.add(centerPanel, BorderLayout.NORTH);
         final JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         rightPanel.setOpaque(false);
         rightPanel.add(this.masterWorkerView);
@@ -55,10 +55,13 @@ public class InspectorPanelView extends JPanel {
         this.add(westPanel, BorderLayout.WEST);
 
         this.setOpaque(false);
+
+        this.startStopView.addListener(this.stepperView);
+        this.startStopView.addListener(this.masterWorkerView);
     }
 
     public void setupSimulation(final InspectorSimulation simulation) {
-        this.startStopView.setupSimulation(simulation, this.stepperView);
+        this.startStopView.setupSimulation(simulation);
     }
 
     public void updateInspector(final InspectorSimulation simulation) {

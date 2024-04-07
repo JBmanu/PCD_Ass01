@@ -37,6 +37,13 @@ public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorke
         this.actionDivisor = 5;
     }
 
+    public MultiWorkerSpecific(StartStopMonitor starStopMonitorSimulation, int sense, int decide, int action) {
+        this(starStopMonitorSimulation);
+        this.senseDivisor = sense;
+        this.decideDivisor = decide;
+        this.actionDivisor = action;
+    }
+
     @Override
     public void setup() {
         final List<List<CarAgent>> carDividedSenseList = ListUtils.divideEqually(this.carAgents(), this.senseDivisor);

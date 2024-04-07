@@ -18,14 +18,18 @@ import java.util.List;
 public class MultiWorkerGeneric extends BaseMasterWorker implements MasterWorker {
     private final List<Worker> carsWorkers;
     private final MyCyclicBarrier cycleBarrier;
-
-    private final int divisor;
+    private int divisor;
 
     public MultiWorkerGeneric(final StartStopMonitor starStopMonitorSimulation) {
         super(starStopMonitorSimulation);
         this.carsWorkers = new ArrayList<>();
         this.cycleBarrier = new MyCyclicBarrierImpl(this.startStopMonitorSimulation());
         this.divisor = 5;
+    }
+
+    public MultiWorkerGeneric(final StartStopMonitor starStopMonitorSimulation, final int divisor) {
+        this(starStopMonitorSimulation);
+        this.divisor = divisor;
     }
 
     @Override

@@ -1,11 +1,13 @@
 package inspector.stepper;
 
+import inspector.StartStopViewListener;
+import simulation.InspectorSimulation;
 import utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class StepperView extends JPanel {
+public class StepperView extends JPanel implements StartStopViewListener {
     private static final String STEP = "Step:";
     private static final int COLUMNS = 5;
     private final JLabel titleSetStepLabel;
@@ -53,5 +55,15 @@ public class StepperView extends JPanel {
     public void updateStepper(final Stepper stepper) {
         final int currentStep = stepper.currentStep() + 1;
         this.currentStepLabel.setText("Current Step: " + currentStep);
+    }
+
+    @Override
+    public boolean conditionToStart(InspectorSimulation simulation) {
+        return this.getStep() > 0;
+    }
+
+    @Override
+    public void onStart(InspectorSimulation simulation) {
+        simulation.stepper().setTotalStep(this.getStep());
     }
 }

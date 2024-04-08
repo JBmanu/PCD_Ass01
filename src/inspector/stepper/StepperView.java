@@ -38,7 +38,7 @@ public class StepperView extends JPanel implements StartStopViewListener {
         try {
             this.clearError();
             return Integer.parseInt(this.stepTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             this.showError();
             return -1;
         }
@@ -58,17 +58,17 @@ public class StepperView extends JPanel implements StartStopViewListener {
     }
 
     @Override
-    public boolean conditionToStart(InspectorSimulation simulation) {
+    public boolean conditionToStart(final InspectorSimulation simulation) {
         return this.getStep() > 0;
     }
 
     @Override
-    public void onStart(InspectorSimulation simulation) {
+    public void onStart(final InspectorSimulation simulation) {
         simulation.stepper().setTotalStep(this.getStep());
     }
 
     @Override
-    public void reset(InspectorSimulation simulation) {
+    public void reset(final InspectorSimulation simulation) {
 
     }
 }

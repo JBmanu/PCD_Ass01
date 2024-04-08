@@ -23,11 +23,11 @@ public abstract class BaseMasterWorker {
         return this.carAgents;
     }
 
-    protected void setDtToCarAgents(int dt) {
+    protected void setDtToCarAgents(final int dt) {
         this.carAgents.stream().parallel().forEach(carAgent -> carAgent.setTimeDt(dt));
     }
 
-    public void addCarAgent(CarAgent carAgent) {
+    public void addCarAgent(final CarAgent carAgent) {
         this.carAgents.add(carAgent);
     }
 

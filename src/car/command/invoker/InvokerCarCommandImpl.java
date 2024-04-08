@@ -28,7 +28,7 @@ public class InvokerCarCommandImpl implements InvokerCommand {
     }
 
     @Override
-    public void execute(CommandCar command) {
+    public void execute(final CommandCar command) {
         this.commands.get(command).execute(this.car);
     }
 }

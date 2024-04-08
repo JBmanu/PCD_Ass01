@@ -20,7 +20,7 @@ enum SimulationType {
 
     private final String name;
 
-    SimulationType(String name) {
+    SimulationType(final String name) {
         this.name = name;
     }
 
@@ -50,7 +50,7 @@ public class SimulationView extends JPanel implements StartStopViewListener {
     }
 
     private SimulationType simulationType() {
-        String selectedOption = (String) this.comboBox.getSelectedItem();
+        final String selectedOption = (String) this.comboBox.getSelectedItem();
         if (Objects.equals(selectedOption, SimulationType.SINGLE_ROAD.getName())) {
             return SimulationType.SINGLE_ROAD;
         } else if (Objects.equals(selectedOption, SimulationType.SINGLE_ROAD_TRAFFIC_LIGHT.getName())) {
@@ -83,17 +83,17 @@ public class SimulationView extends JPanel implements StartStopViewListener {
 
 
     @Override
-    public boolean conditionToStart(InspectorSimulation simulation) {
+    public boolean conditionToStart(final InspectorSimulation simulation) {
         return true;
     }
 
     @Override
-    public void onStart(InspectorSimulation simulation) {
+    public void onStart(final InspectorSimulation simulation) {
 
     }
 
     @Override
-    public void reset(InspectorSimulation simulation) {
+    public void reset(final InspectorSimulation simulation) {
 //        SimulationSingleton.simulation = this.createSimulation();
 //        SimulationSingleton.simulation.setup();
 //        SimulationSingleton.simulation.addViewListener(SimulationSingleton.simulationView);

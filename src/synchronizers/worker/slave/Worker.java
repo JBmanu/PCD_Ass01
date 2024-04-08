@@ -7,11 +7,7 @@ public interface Worker {
 
     void play(CarCommand command);
 
-    void pauseAndWaitUntilPlay();
-
-//    void pause();
-
     void terminate();
 
-    void addStartStopMonitorInTail(StartStopMonitor starStopMonitorSimulation);
+    void addStartStopMonitorInTail(StartStopMonitor startStopMonitor);
 }

@@ -12,17 +12,17 @@ import java.util.List;
 
 public interface InspectorSimulation {
 
-    public Stepper stepper();
+    Stepper stepper();
 
-    public StartStopMonitor startStopMonitor();
+    StartStopMonitor startStopMonitor();
 
-    public TimeStatistics timeStatistics();
+    TimeStatistics timeStatistics();
 
-    public RoadSimStatistics roadStatistics();
+    RoadSimStatistics roadStatistics();
 
-    public AbstractEnvironment environment();
+    AbstractEnvironment environment();
 
-    public List<AbstractAgent> agents();
+    List<AbstractAgent> agents();
 
     void setMasterWorker(final MasterWorker masterWorker);
 

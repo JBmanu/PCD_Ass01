@@ -16,7 +16,7 @@ public class StartStopView extends JPanel {
     private final JButton pauseButton;
     private final JButton resetButton;
     private final FlowLayout layoutManager;
-    private List<StartStopViewListener> listeners;
+    private final List<StartStopViewListener> listeners;
     private boolean isSetup;
 
     public StartStopView() {

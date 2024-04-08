@@ -7,7 +7,7 @@ import car.command.CarCommand;
 public class SenseCommand implements CarCommand {
 
     @Override
-    public void execute(CarAgent carAgent) {
+    public void execute(final CarAgent carAgent) {
         carAgent.setCurrentPercept((CarPercept) carAgent.getCurrentPercepts());
     }
 }

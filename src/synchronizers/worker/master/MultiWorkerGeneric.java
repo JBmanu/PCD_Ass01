@@ -46,7 +46,7 @@ public class MultiWorkerGeneric extends BaseMasterWorker implements MasterWorker
     }
 
     @Override
-    public void execute(int dt) {
+    public void execute(final int dt) {
         this.setDtToCarAgents(dt);
         this.runCommand(new SenseCommand());
         this.runCommand(new DecideCommand());

@@ -69,14 +69,14 @@ public class CarAgentBasic extends CarAgent {
     }
 
     // State
-    private void waitABitState(int dt) {
+    private void waitABitState(final int dt) {
         this.waitingTime += dt;
         if (this.waitingTime > MAX_WAITING_TIME) {
             this.state = CarAgentState.ACCELERATING;
         }
     }
 
-    private void deceleratingBecauseOfACarState(int dt) {
+    private void deceleratingBecauseOfACarState(final int dt) {
         this.currentSpeed -= this.deceleration * dt;
         if (this.currentSpeed <= 0) {
             this.state = CarAgentState.STOPPED;
@@ -92,7 +92,7 @@ public class CarAgentBasic extends CarAgent {
         }
     }
 
-    private void acceleratingState(int dt) {
+    private void acceleratingState(final int dt) {
         if (this.detectedNearCar()) {
             this.state = CarAgentState.DECELERATING_BECAUSE_OF_A_CAR;
         } else {

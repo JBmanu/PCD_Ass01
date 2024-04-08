@@ -9,13 +9,13 @@ import utils.ViewUtils;
 import javax.swing.*;
 import java.awt.*;
 
-public class RoadSimView extends JFrame implements ViewSimulationListener {
+public class SimulationView extends JFrame implements ViewSimulationListener {
     private final InspectorPanelView inspectorPanelView;
     private final RoadPanelView roadPanelView;
     private final BorderLayout layoutManager;
     private final JPanel glassPane;
 
-    public RoadSimView() {
+    public SimulationView() {
         super("RoadSim View");
         this.setSize(ViewUtils.GUI_WIDTH, ViewUtils.GUI_HEIGHT);
         this.inspectorPanelView = new InspectorPanelView();

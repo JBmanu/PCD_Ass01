@@ -5,12 +5,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import synchronizers.monitor.startStop.StartStopMonitor;
 
 public class MyCyclicBarrierImpl implements MyCyclicBarrier {
-    final StartStopMonitor startStopMonitor;
+    final StartStopMonitor startStopMonitorWhenBreakBarrier;
     private final AtomicInteger countWorker;
     private int totalWorker;
 
-    public MyCyclicBarrierImpl(final StartStopMonitor startStopMonitor) {
-        this.startStopMonitor = startStopMonitor;
+    public MyCyclicBarrierImpl(final StartStopMonitor startStopMonitorWhenBreakBarrier) {
+        this.startStopMonitorWhenBreakBarrier = startStopMonitorWhenBreakBarrier;
         this.countWorker = new AtomicInteger(0);
     }
 
@@ -21,12 +21,12 @@ public class MyCyclicBarrierImpl implements MyCyclicBarrier {
     }
 
     @Override
-    public void awaitThatBroken() {
+    public void hit() {
         if (this.countWorker.incrementAndGet() == this.totalWorker) {
             this.countWorker.set(0);
             System.out.println();
             System.out.println("BRAKE BARRIER: play next command");
-            this.startStopMonitor.play();
+            this.startStopMonitorWhenBreakBarrier.play();
         }
     }
 }

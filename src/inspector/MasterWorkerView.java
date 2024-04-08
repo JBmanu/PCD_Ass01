@@ -16,7 +16,7 @@ enum WorkerType {
 
     private final String name;
 
-    WorkerType(String name) {
+    WorkerType(final String name) {
         this.name = name;
     }
 
@@ -90,18 +90,18 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
     }
 
     @Override
-    public boolean conditionToStart(InspectorSimulation simulation) {
+    public boolean conditionToStart(final InspectorSimulation simulation) {
         return this.checkValue();
     }
 
     @Override
-    public void onStart(InspectorSimulation simulation) {
+    public void onStart(final InspectorSimulation simulation) {
         if (!this.checkValue()) return;
         this.setupSimulation(simulation);
     }
 
     @Override
-    public void reset(InspectorSimulation simulation) {
+    public void reset(final InspectorSimulation simulation) {
 
     }
 
@@ -143,7 +143,7 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
     private int getGenericWorker() {
         try {
             return Integer.parseInt(this.genericTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             return -1;
         }
     }
@@ -151,7 +151,7 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
     private int getSense() {
         try {
             return Integer.parseInt(this.senseTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             return -1;
         }
     }
@@ -159,7 +159,7 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
     private int getDecide() {
         try {
             return Integer.parseInt(this.decideTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             return -1;
         }
     }
@@ -167,13 +167,13 @@ public class MasterWorkerView extends JPanel implements StartStopViewListener {
     private int getAction() {
         try {
             return Integer.parseInt(this.actionTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             return -1;
         }
     }
 
     private WorkerType workerType() {
-        String selectedOption = (String) this.comboBox.getSelectedItem();
+        final String selectedOption = (String) this.comboBox.getSelectedItem();
         if (Objects.equals(selectedOption, WorkerType.GENERIC.getName())) {
             return WorkerType.GENERIC;
         } else {

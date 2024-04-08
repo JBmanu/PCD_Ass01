@@ -26,17 +26,17 @@ public class WorkerCarBarrier extends BaseWorker implements Worker {
     protected void execute() {
         System.out.print("HIT ");
         this.agents.forEach(this.command::execute);
-        this.cyclicBarrier.awaitThatBroken();
+        this.cyclicBarrier.hit();
     }
 
     @Override
-    public void play(CarCommand command) {
+    public void play(final CarCommand command) {
         this.command = command;
         this.play();
     }
 
     @Override
-    public void addStartStopMonitorInTail(StartStopMonitor starStopMonitorSimulation) {
-        this.startStopMonitorInTailList.add(starStopMonitorSimulation);
+    public void addStartStopMonitorInTail(final StartStopMonitor startStopMonitor) {
+        this.startStopMonitorInTailList.add(startStopMonitor);
     }
 }

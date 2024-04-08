@@ -112,7 +112,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
      */
     @Override
     public void run() {
-        this.startStopMonitor.waitUntilPlay();
+        this.startStopMonitor.awaitUntilPlay();
         this.timeStatistics.setStartWallTime();
 
         /* initialize the env and the agents inside */
@@ -128,7 +128,7 @@ public abstract class AbstractSimulation extends Thread implements InspectorSimu
         long timePerStep = 0;
 
         while (this.stepper.hasMoreSteps()) {
-            this.startStopMonitor.waitUntilPlay();
+            this.startStopMonitor.awaitUntilPlay();
             this.timeStatistics.setCurrentWallTime(System.currentTimeMillis());
 
             /* make a step */

@@ -25,7 +25,7 @@ public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorke
     private int decideDivisor;
     private int actionDivisor;
 
-    public MultiWorkerSpecific(StartStopMonitor starStopMonitorSimulation) {
+    public MultiWorkerSpecific(final StartStopMonitor starStopMonitorSimulation) {
         super(starStopMonitorSimulation);
         this.carsWorkersList = new ArrayList<>();
         this.commands = List.of(new SenseCommand(), new DecideCommand(), new ActionCommand());
@@ -37,7 +37,7 @@ public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorke
         this.actionDivisor = 5;
     }
 
-    public MultiWorkerSpecific(StartStopMonitor starStopMonitorSimulation, int sense, int decide, int action) {
+    public MultiWorkerSpecific(final StartStopMonitor starStopMonitorSimulation, final int sense, final int decide, final int action) {
         this(starStopMonitorSimulation);
         this.senseDivisor = sense;
         this.decideDivisor = decide;
@@ -53,9 +53,9 @@ public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorke
         this.decideCycleBarrier.setup(carDividedDecideList.size());
         this.actionCycleBarrier.setup(carDividedActionList.size());
 
-        List<Worker> senseWorkers = carDividedSenseList.stream().map(car -> (Worker) new WorkerCarBarrier(this.senseCycleBarrier, car)).toList();
-        List<Worker> decideWorkers = carDividedDecideList.stream().map(car -> (Worker) new WorkerCarBarrier(this.decideCycleBarrier, car)).toList();
-        List<Worker> actionWorkers = carDividedActionList.stream().map(car -> (Worker) new WorkerCarBarrier(this.actionCycleBarrier, car)).toList();
+        final List<Worker> senseWorkers = carDividedSenseList.stream().map(car -> (Worker) new WorkerCarBarrier(this.senseCycleBarrier, car)).toList();
+        final List<Worker> decideWorkers = carDividedDecideList.stream().map(car -> (Worker) new WorkerCarBarrier(this.decideCycleBarrier, car)).toList();
+        final List<Worker> actionWorkers = carDividedActionList.stream().map(car -> (Worker) new WorkerCarBarrier(this.actionCycleBarrier, car)).toList();
 
         this.carsWorkersList.add(senseWorkers);
         this.carsWorkersList.add(decideWorkers);
@@ -63,10 +63,10 @@ public class MultiWorkerSpecific extends BaseMasterWorker implements MasterWorke
     }
 
     @Override
-    public void execute(int dt) {
+    public void execute(final int dt) {
         this.setDtToCarAgents(dt);
         int index = 0;
-        for (var command : this.commands) {
+        for (final var command : this.commands) {
             this.carsWorkersList.get(index++).forEach(worker -> worker.play(command));
             this.startStopMonitorSimulation().pauseAndWaitUntilPlay();
         }

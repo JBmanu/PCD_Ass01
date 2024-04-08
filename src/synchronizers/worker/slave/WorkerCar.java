@@ -26,13 +26,13 @@ public class WorkerCar extends BaseWorker implements Worker {
     }
 
     @Override
-    public void play(CarCommand command) {
+    public void play(final CarCommand command) {
         this.command = command;
         this.play();
     }
 
     @Override
-    public void addStartStopMonitorInTail(StartStopMonitor starStopMonitorSimulation) {
-        this.startStopMonitorInTailList.add(starStopMonitorSimulation);
+    public void addStartStopMonitorInTail(final StartStopMonitor startStopMonitor) {
+        this.startStopMonitorInTailList.add(startStopMonitor);
     }
 }

@@ -1,6 +1,6 @@
 package trafficexamples;
 
-import simulation.RoadSimView;
+import simulation.SimulationView;
 import simulation.SimulationSingleton;
 
 /**
@@ -17,7 +17,7 @@ public class RunTrafficSimulation {
 //		 var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
 //		 var simulation = new TrafficSimulationWithCrossRoads();
 
-		final RoadSimView view = SimulationSingleton.simulationView;
+		final SimulationView view = SimulationSingleton.simulationView;
 
 		SimulationSingleton.simulation.addViewListener(view);
 		view.setupCommandsSimulation(SimulationSingleton.simulation);
